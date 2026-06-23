@@ -187,6 +187,11 @@
       </div>
 
       <div class="field">
+        <label for="lastName">Last name</label>
+        <input id="lastName" name="lastName" type="text" autocomplete="family-name" required />
+      </div>
+
+      <div class="field">
         <label for="email">Email</label>
         <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required />
       </div>
@@ -248,21 +253,29 @@
         clearError();
 
         var firstNameEl = form.firstName;
+        var lastNameEl = form.lastName;
         var emailEl = form.email;
         var roleEl = form.roleOrDepartment;
         var consentEl = form.consentWorkshopFollowup;
         var futureEl = form.consentFutureUpdates;
 
         firstNameEl.classList.remove('invalid');
+        lastNameEl.classList.remove('invalid');
         emailEl.classList.remove('invalid');
 
         var firstName = firstNameEl.value.trim();
+        var lastName = lastNameEl.value.trim();
         var email = emailEl.value.trim();
         var roleOrDepartment = roleEl.value.trim();
 
         if (!firstName) {
           firstNameEl.classList.add('invalid');
           showError('Please enter your first name.', firstNameEl);
+          return;
+        }
+        if (!lastName) {
+          lastNameEl.classList.add('invalid');
+          showError('Please enter your last name.', lastNameEl);
           return;
         }
         if (!email || !emailPattern.test(email)) {
@@ -283,6 +296,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             firstName: firstName,
+            lastName: lastName,
             email: email,
             roleOrDepartment: roleOrDepartment,
             consentWorkshopFollowup: consentEl.checked,

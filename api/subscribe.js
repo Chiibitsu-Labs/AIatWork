@@ -35,6 +35,7 @@ module.exports = async function handler(req, res) {
 
   const body = req.body || {};
   const firstName = typeof body.firstName === 'string' ? body.firstName.trim() : '';
+  const lastName = typeof body.lastName === 'string' ? body.lastName.trim() : '';
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
   const roleOrDepartment = typeof body.roleOrDepartment === 'string' ? body.roleOrDepartment.trim() : '';
   const consentWorkshopFollowup = body.consentWorkshopFollowup === true;
@@ -42,6 +43,9 @@ module.exports = async function handler(req, res) {
 
   if (!firstName) {
     return res.status(400).json({ ok: false, error: 'Please enter your first name.' });
+  }
+  if (!lastName) {
+    return res.status(400).json({ ok: false, error: 'Please enter your last name.' });
   }
   if (!email || !EMAIL_PATTERN.test(email)) {
     return res.status(400).json({ ok: false, error: 'Please enter a valid email address.' });
@@ -64,6 +68,7 @@ module.exports = async function handler(req, res) {
   const createResult = await resend.contacts.create({
     email,
     firstName,
+    lastName,
     properties,
     segments,
   });
@@ -71,7 +76,7 @@ module.exports = async function handler(req, res) {
   if (createResult.error) {
     console.error('[subscribe] contacts.create failed, falling back to update + per-segment add', createResult.error);
 
-    const updateResult = await resend.contacts.update({ email, firstName });
+    const updateResult = await resend.contacts.update({ email, firstName, lastName });
     if (updateResult.error) {
       console.error('[subscribe] contacts.update failed (non-fatal)', updateResult.error);
     }
