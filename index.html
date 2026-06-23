@@ -6,6 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI @ Work — Use Case Lab</title>
   <meta name="description" content="A practical AI workshop built around your team's actual work — not generic AI." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aiatwork.chiibitsu.com" />
+  <meta property="og:title" content="AI @ Work: Use Case Lab" />
+  <meta property="og:description" content="A practical AI workshop built around your team's actual work — not generic AI. Real workflows. Real tools. Real output." />
+  <meta property="og:image" content="https://aiatwork.chiibitsu.com/og.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="2400" />
+  <meta property="og:image:height" content="1260" />
+  <meta property="og:image:alt" content="AI @ Work: Use Case Lab — a practical AI workshop built around your team's actual work. Futureproof by Chiibitsu Labs." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI @ Work: Use Case Lab" />
+  <meta name="twitter:description" content="A practical AI workshop built around your team's actual work — not generic AI." />
+  <meta name="twitter:image" content="https://aiatwork.chiibitsu.com/og.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -30,6 +47,55 @@
       max-width: 720px;
       margin: 0 auto;
       padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+    /* Subtle gold sparkle field behind the hero */
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .sparkles::before,
+    .sparkles::after {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      background-repeat: no-repeat;
+    }
+    .sparkles::before {
+      background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(181,166,100,0.6), transparent 55%),
+        radial-gradient(1.5px 1.5px at 25% 70%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(2px 2px at 45% 35%, rgba(181,166,100,0.55), transparent 55%),
+        radial-gradient(1.5px 1.5px at 65% 80%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(2px 2px at 80% 25%, rgba(181,166,100,0.6), transparent 55%),
+        radial-gradient(1.5px 1.5px at 92% 60%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(2px 2px at 55% 12%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(1.5px 1.5px at 35% 90%, rgba(181,166,100,0.45), transparent 55%);
+      animation: twinkle 7s ease-in-out infinite;
+    }
+    .sparkles::after {
+      background-image:
+        radial-gradient(1.5px 1.5px at 18% 45%, rgba(78,42,132,0.35), transparent 55%),
+        radial-gradient(2px 2px at 38% 58%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(1.5px 1.5px at 60% 30%, rgba(181,166,100,0.45), transparent 55%),
+        radial-gradient(2px 2px at 72% 68%, rgba(181,166,100,0.55), transparent 55%),
+        radial-gradient(1.5px 1.5px at 88% 40%, rgba(78,42,132,0.3), transparent 55%),
+        radial-gradient(2px 2px at 8% 78%, rgba(181,166,100,0.5), transparent 55%),
+        radial-gradient(1.5px 1.5px at 50% 85%, rgba(181,166,100,0.45), transparent 55%),
+        radial-gradient(2px 2px at 28% 28%, rgba(181,166,100,0.5), transparent 55%);
+      animation: twinkle 5s ease-in-out infinite reverse;
+      animation-delay: -2s;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sparkles::before, .sparkles::after { animation: none; opacity: 0.5; }
     }
     .hero {
       min-height: 88vh;
@@ -115,6 +181,7 @@
   </style>
 </head>
 <body>
+  <div class="sparkles" aria-hidden="true"></div>
   <main class="wrap">
     <section class="hero">
       <p class="eyebrow">Futureproof by Chiibitsu Labs</p>
@@ -123,7 +190,7 @@
       <hr class="hairline" />
       <p class="sub">Real workflows. Real tools. Real output.&nbsp; · &nbsp;4 hours · live &amp; interactive</p>
       <div class="actions">
-        <a class="cta" href="https://book.chiibitsu.com/ai-at-work">Book a slot →</a>
+        <a class="cta" href="https://go.chiibitsu.com/aiworkshop">Book a slot →</a>
         <a class="secondary" href="/menu">See what's possible →</a>
       </div>
     </section>
