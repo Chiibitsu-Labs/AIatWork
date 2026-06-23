@@ -15,10 +15,10 @@ The slide should:
 ## Drive folder URL
 
 ```
-[PASTE GOOGLE DRIVE FOLDER SHARE LINK HERE]
+https://go.chiibitsu.com/aaw-attendee-merg
 ```
 
-Replace the placeholder above with the actual shared Drive link before generating the QR code. The folder should be shared as "Anyone with the link → Viewer."
+This is a Switchy short link — use it as-is for the QR code. It already redirects to the shared Drive folder.
 
 ---
 
@@ -52,4 +52,4 @@ Match the existing workshop slide deck style. If no style guide exists, use:
 - Do not use a URL shortener that might expire
 - If the slide deck is in Google Slides: insert → image → upload the QR code as a PNG, or use a QR code add-on
 - If the slide deck is in Canva or Keynote: same approach — generate QR as PNG from qr-code-generator.com or equivalent, then place on slide
-- This slide is separate from the end-of-session signup slide (`/merg-updates`) — that one stays at the end for follow-up + certificates
+- This slide is separate from the end-of-session signup slide — that QR points to `https://aiatwork.chiibitsu.com/clients/merg` and stays at the end for follow-up + certificates
