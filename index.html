@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- Landing v0 — full build pending. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI @ Work — Use Case Lab</title>
+  <meta name="description" content="A practical AI workshop built around your team's actual work — not generic AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #4E2A84;
+      --gold: #B5A664;
+      --cream: #F7F3E9;
+      --ink: #2B2330;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 0 56px;
+    }
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin: 0 0 22px;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      color: var(--purple);
+      font-size: clamp(2.6rem, 9vw, 4.4rem);
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    h1 .lab { display: block; color: var(--ink); }
+    .tagline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.25rem, 4.5vw, 1.7rem);
+      line-height: 1.4;
+      margin: 28px 0 0;
+      max-width: 30ch;
+    }
+    .hairline {
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.55;
+      border: 0;
+      margin: 36px 0;
+      max-width: 240px;
+    }
+    .sub {
+      font-size: 1.02rem;
+      color: var(--ink);
+      opacity: 0.85;
+      margin: 0 0 40px;
+      font-weight: 500;
+    }
+    .cta {
+      display: inline-block;
+      background: var(--purple);
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 16px 32px;
+      border-radius: 4px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .cta:hover { background: #3d2068; transform: translateY(-1px); }
+    .secondary {
+      display: inline-block;
+      margin-top: 26px;
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+    }
+    .secondary:hover { color: var(--gold); }
+    .actions { display: flex; flex-direction: column; align-items: flex-start; }
+    footer {
+      border-top: 1px solid var(--gold);
+      margin-top: 24px;
+      padding: 32px 0 48px;
+      font-size: 0.9rem;
+      color: var(--ink);
+      opacity: 0.75;
+    }
+    footer .brand { font-weight: 600; opacity: 1; }
+    footer a { color: var(--purple); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow">AI @ Work</p>
+      <h1>Use Case<span class="lab">Lab</span></h1>
+      <p class="tagline">A practical AI workshop built around your team's actual work — not generic AI.</p>
+      <hr class="hairline" />
+      <p class="sub">Real workflows. Real tools. Real output.&nbsp; · &nbsp;4 hours · live &amp; interactive</p>
+      <div class="actions">
+        <a class="cta" href="https://book.chiibitsu.com/ai-at-work">Book a slot →</a>
+        <a class="secondary" href="/menu">See what's possible →</a>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap">
+    <span class="brand">Chiibitsu Labs — more human, by design</span> · <a href="https://book.chiibitsu.com">book.chiibitsu.com</a>
+  </footer>
+</body>
+</html>

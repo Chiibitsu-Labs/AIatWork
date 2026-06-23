@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>AI @ Work: Use Case Lab Kit</title>
+  <meta name="description" content="Everything your team needs to come ready. ~5 minutes per person." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #4E2A84;
+      --gold: #B5A664;
+      --cream: #F7F3E9;
+      --ink: #2B2330;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    header.page { padding: 64px 0 8px; }
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      color: var(--purple);
+      font-size: clamp(2.1rem, 6.5vw, 3.2rem);
+      line-height: 1.08;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .subhead {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+      line-height: 1.4;
+      margin: 18px 0 0;
+      max-width: 38ch;
+    }
+    .hairline {
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.55;
+      border: 0;
+      margin: 40px 0;
+    }
+    section { margin: 0 0 14px; }
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 600;
+      color: var(--purple);
+      font-size: 1.55rem;
+      line-height: 1.2;
+      margin: 0 0 6px;
+    }
+    h2 .meta {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+    ol.steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 0;
+    }
+    ol.steps > li {
+      position: relative;
+      counter-increment: step;
+      padding: 0 0 18px 46px;
+      margin: 0;
+    }
+    ol.steps > li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: var(--cream);
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    ol.steps > li strong { color: var(--ink); font-weight: 600; }
+    ul.plain {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+    }
+    ul.plain > li {
+      position: relative;
+      padding-left: 22px;
+      margin: 0 0 12px;
+    }
+    ul.plain > li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    ul.plain ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 4px;
+    }
+    ul.plain ul li {
+      position: relative;
+      padding-left: 22px;
+      margin: 0 0 8px;
+      font-size: 0.97rem;
+    }
+    ul.plain ul li::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 0.62em;
+      width: 7px;
+      height: 1px;
+      background: var(--purple);
+    }
+    .tool { font-weight: 600; color: var(--purple); }
+    .note {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+    .close {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.2rem, 4vw, 1.55rem);
+      line-height: 1.4;
+      color: var(--purple);
+      margin: 8px 0 0;
+      max-width: 34ch;
+    }
+    footer {
+      border-top: 1px solid var(--gold);
+      margin-top: 44px;
+      padding: 32px 0 48px;
+      font-size: 0.9rem;
+      color: var(--ink);
+      opacity: 0.75;
+    }
+    footer .brand { font-weight: 600; opacity: 1; }
+  </style>
+</head>
+<body>
+  <header class="page wrap">
+    <p class="eyebrow">AI @ Work</p>
+    <h1>Use Case Lab Kit</h1>
+    <p class="subhead">Everything your team needs to come ready. ~5 minutes per person.</p>
+    <hr class="hairline" />
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>What we'll do<span class="meta">4 hours · live &amp; interactive</span></h2>
+      <ol class="steps">
+        <li><strong>AI for your company specifically</strong> — not generic AI</li>
+        <li><strong>Your Use Case Menu</strong> — where AI actually fits your team's work</li>
+        <li><strong>Live demos on real tasks</strong> — client inquiries, reports, follow-ups</li>
+        <li><strong>Hands-on practice</strong> — everyone tries it on their own work</li>
+        <li><strong>Your next steps</strong> + a 7-day practice guide, with a group review call after</li>
+      </ol>
+    </section>
+
+    <hr class="hairline" />
+
+    <section>
+      <h2>Before the workshop, each person:</h2>
+      <ul class="plain">
+        <li>Bring a laptop, charged (not a phone)</li>
+        <li>
+          Create, log into, and <strong>TEST</strong> these before arriving:
+          <ul>
+            <li><span class="tool">Claude</span> — claude.ai</li>
+            <li><span class="tool">ChatGPT</span> — chatgpt.com</li>
+            <li><span class="tool">Google account</span> — for Gemini and NotebookLM</li>
+          </ul>
+        </li>
+        <li>If your company has an Enterprise or paid account for any of these (Claude, ChatGPT, or Gemini), use that instead of a free one.</li>
+        <li>No installs needed — just a web browser.</li>
+      </ul>
+    </section>
+
+    <hr class="hairline" />
+
+    <section>
+      <h2>Please arrange<span class="meta">host / organizer</span></h2>
+      <ul class="plain">
+        <li>Projector + HDMI cable</li>
+        <li>Strong, reliable WiFi (everyone online at once)</li>
+        <li>Power outlets / extension access for laptops</li>
+        <li>Healthy snacks for the team (keeps energy up across 4 hours)</li>
+        <li>Final headcount + list of attendee names (for certificates)</li>
+        <li>Confirmed venue address</li>
+      </ul>
+    </section>
+
+    <hr class="hairline" />
+
+    <p class="close">Come curious. You'll leave with AI working inside your actual day-to-day.</p>
+  </main>
+
+  <footer class="wrap">
+    <span class="brand">Chiibitsu Labs — more human, by design</span> · book.chiibitsu.com
+  </footer>
+</body>
+</html>
