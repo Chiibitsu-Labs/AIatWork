@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Get the AI @ Work follow-up ~ Chiibitsu Labs</title>
+  <meta name="description" content="Enter your email so we can send the final review call date, workshop materials, and next steps from today's session." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #4E2A84;
+      --gold: #B5A664;
+      --cream: #F7F3E9;
+      --ink: #2B2330;
+      --error: #B3261E;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .wrap {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+    main.wrap { flex: 1; }
+    header.hero { padding: 48px 0 8px; }
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      color: var(--purple);
+      font-size: clamp(2rem, 8vw, 2.6rem);
+      line-height: 1.12;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .subhead {
+      font-size: 1.02rem;
+      line-height: 1.55;
+      margin: 18px 0 0;
+      opacity: 0.85;
+      max-width: 42ch;
+    }
+    .hairline {
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.55;
+      border: 0;
+      margin: 32px 0;
+    }
+    form { margin: 0 0 8px; }
+    .field { margin: 0 0 20px; }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.92rem;
+      margin: 0 0 8px;
+    }
+    .optional {
+      font-weight: 400;
+      opacity: 0.6;
+      font-size: 0.85rem;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 14px 16px;
+      border: 1.5px solid rgba(43, 35, 48, 0.2);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+    input.invalid {
+      border-color: var(--error);
+    }
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+    .checkbox input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      margin: 0;
+      accent-color: var(--purple);
+      cursor: pointer;
+    }
+    .checkbox span { padding-top: 2px; }
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      background: var(--purple);
+      color: var(--cream);
+      border: none;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 17px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 28px;
+      transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    }
+    button[type="submit"]:hover { background: #3d2068; }
+    button[type="submit"]:disabled {
+      opacity: 0.65;
+      cursor: default;
+      transform: none;
+    }
+    .form-message {
+      min-height: 1.4em;
+      margin: 16px 0 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .form-message.error { color: var(--error); }
+    .success-state {
+      padding: 8px 0 24px;
+    }
+    .success-state p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.2rem, 5vw, 1.45rem);
+      line-height: 1.45;
+      color: var(--purple);
+      margin: 0;
+    }
+    footer.wrap {
+      border-top: 1px solid var(--gold);
+      margin-top: 40px;
+      padding: 28px 24px 40px;
+      font-size: 0.88rem;
+      color: var(--ink);
+      opacity: 0.75;
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Chiibitsu Labs · AI @ Work</p>
+      <h1>Get the AI @ Work follow-up</h1>
+      <p class="subhead">Enter your email so we can send the final review call date, workshop materials, and next steps from today's session.</p>
+      <hr class="hairline" />
+    </header>
+
+    <form id="signup-form" novalidate>
+      <div class="field">
+        <label for="firstName">First name</label>
+        <input id="firstName" name="firstName" type="text" autocomplete="given-name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="roleOrDepartment">Role or department <span class="optional">(optional)</span></label>
+        <input id="roleOrDepartment" name="roleOrDepartment" type="text" autocomplete="organization-title" />
+      </div>
+
+      <div class="field">
+        <label class="checkbox">
+          <input id="consentWorkshopFollowup" name="consentWorkshopFollowup" type="checkbox" required />
+          <span>Yes, send me the AI @ Work workshop follow-up.</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="checkbox">
+          <input id="consentFutureUpdates" name="consentFutureUpdates" type="checkbox" />
+          <span>Also send me future practical AI @ Work updates from Chiibitsu Labs.</span>
+        </label>
+      </div>
+
+      <button type="submit" id="submit-btn">Send me the follow-up</button>
+
+      <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="success-state" class="success-state" hidden>
+      <p>You're on the list. We'll send the final review call date, workshop materials, and next steps here once confirmed.</p>
+    </div>
+  </main>
+
+  <footer class="wrap">
+    <span class="brand">Chiibitsu Labs ~ more human, by design.</span>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('signup-form');
+      var btn = document.getElementById('submit-btn');
+      var msg = document.getElementById('form-message');
+      var successState = document.getElementById('success-state');
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function showError(text, fieldEl) {
+        msg.textContent = text;
+        msg.className = 'form-message error';
+        if (fieldEl) fieldEl.focus();
+      }
+
+      function clearError() {
+        msg.textContent = '';
+        msg.className = 'form-message';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearError();
+
+        var firstNameEl = form.firstName;
+        var emailEl = form.email;
+        var roleEl = form.roleOrDepartment;
+        var consentEl = form.consentWorkshopFollowup;
+        var futureEl = form.consentFutureUpdates;
+
+        firstNameEl.classList.remove('invalid');
+        emailEl.classList.remove('invalid');
+
+        var firstName = firstNameEl.value.trim();
+        var email = emailEl.value.trim();
+        var roleOrDepartment = roleEl.value.trim();
+
+        if (!firstName) {
+          firstNameEl.classList.add('invalid');
+          showError('Please enter your first name.', firstNameEl);
+          return;
+        }
+        if (!email || !emailPattern.test(email)) {
+          emailEl.classList.add('invalid');
+          showError('Please enter a valid email address.', emailEl);
+          return;
+        }
+        if (!consentEl.checked) {
+          showError('Please check the box to receive the workshop follow-up.');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: firstName,
+            email: email,
+            roleOrDepartment: roleOrDepartment,
+            consentWorkshopFollowup: consentEl.checked,
+            consentFutureUpdates: futureEl.checked
+          })
+        })
+          .then(function (res) {
+            return res.json().catch(function () { return {}; }).then(function (data) {
+              return { ok: res.ok, data: data };
+            });
+          })
+          .then(function (result) {
+            if (!result.ok || !result.data || !result.data.ok) {
+              var friendly = (result.data && result.data.error) || "Something didn't go through. Please check your email and try again.";
+              showError(friendly);
+              btn.disabled = false;
+              btn.textContent = 'Send me the follow-up';
+              return;
+            }
+            form.hidden = true;
+            successState.hidden = false;
+          })
+          .catch(function () {
+            showError("Something didn't go through. Please check your email and try again.");
+            btn.disabled = false;
+            btn.textContent = 'Send me the follow-up';
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
