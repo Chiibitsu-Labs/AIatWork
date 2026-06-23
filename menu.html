@@ -4,238 +4,917 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI @ Work: Use Case Menu</title>
-  <meta name="description" content="Where AI fits how your team already works." />
+  <meta name="description" content="A practical AI use case menu for teams who want to know where AI actually fits." />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
   <style>
     :root {
       --purple: #4E2A84;
+      --purple-dark: #2f184f;
       --gold: #B5A664;
       --cream: #F7F3E9;
+      --paper: #FFFCF6;
       --ink: #2B2330;
+      --muted: #695f6d;
+      --line: rgba(181, 166, 100, 0.38);
+      --shadow: 0 24px 70px rgba(43, 35, 48, 0.08);
     }
+
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: var(--cream);
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 252, 246, 0.88) 0%, rgba(247, 243, 233, 0.98) 42%),
+        var(--cream);
       color: var(--ink);
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
+
+    a {
+      color: inherit;
+    }
+
     .wrap {
-      max-width: 940px;
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 0 24px;
     }
-    header.page {
-      padding: 64px 0 8px;
-    }
-    .eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      font-weight: 600;
-      margin: 0 0 18px;
-    }
-    h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 700;
-      color: var(--purple);
-      font-size: clamp(2.2rem, 7vw, 3.4rem);
-      line-height: 1.08;
-      margin: 0;
-      letter-spacing: -0.01em;
-    }
-    h1 .lab { display: block; color: var(--ink); }
-    .tagline {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.15rem, 3.5vw, 1.5rem);
-      line-height: 1.4;
-      margin: 20px 0 0;
-      max-width: 36ch;
-      color: var(--ink);
-    }
-    .hairline {
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.55;
-      border: 0;
-      margin: 40px 0 8px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 22px;
-      margin: 32px 0 8px;
-    }
-    @media (min-width: 680px) {
-      .grid { grid-template-columns: 1fr 1fr; }
-    }
-    .card {
-      background: #fffdf8;
-      border: 1px solid rgba(181, 166, 100, 0.4);
-      border-radius: 8px;
-      padding: 28px 26px;
+
+    .brandbar {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 0 10px;
     }
-    .card .icon {
-      width: 34px;
-      height: 34px;
+
+    .brandmark {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brandmark-text {
+      display: grid;
+      gap: 1px;
+    }
+
+    .brandmark-text strong {
       color: var(--purple);
-      margin-bottom: 16px;
-    }
-    .card .num {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      font-weight: 600;
-      margin: 0 0 6px;
-    }
-    .card h2 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 600;
-      color: var(--purple);
-      font-size: 1.4rem;
-      line-height: 1.2;
-      margin: 0 0 14px;
+      font-size: 0.9rem;
+      line-height: 1;
     }
-    .card ul {
-      list-style: none;
-      padding: 0;
+
+    .brandmark-text span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.2;
+    }
+
+    .toplink {
+      color: var(--purple);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 54px 0 46px;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      line-height: 1.3;
+      margin: 0 0 18px;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      color: var(--purple);
+      font-size: clamp(2.55rem, 12vw, 5.6rem);
+      line-height: 0.98;
+      margin: 0;
+      max-width: min(9ch, 100%);
+    }
+
+    .subheadline {
+      color: var(--ink);
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.18rem, 4.8vw, 1.72rem);
+      line-height: 1.35;
+      margin: 22px 0 0;
+      max-width: 38ch;
+    }
+
+    .hero-panel {
+      border-left: 1px solid var(--line);
+      padding-left: 22px;
+    }
+
+    .hero-panel p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      max-width: 34ch;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button {
+      align-items: center;
+      border-radius: 4px;
+      display: inline-flex;
+      font-weight: 700;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 20px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--purple);
+      color: var(--cream);
+    }
+
+    .button.primary:hover {
+      background: var(--purple-dark);
+      transform: translateY(-1px);
+    }
+
+    .button.secondary {
+      border: 1px solid var(--line);
+      color: var(--purple);
+      background: rgba(255, 252, 246, 0.5);
+    }
+
+    .button.secondary:hover {
+      border-color: var(--gold);
+      background: var(--paper);
+    }
+
+    .hairline {
+      background: var(--line);
+      border: 0;
+      height: 1px;
       margin: 0;
     }
-    .card li {
+
+    .section {
+      padding: 54px 0;
+    }
+
+    .section-heading {
+      margin: 0 0 24px;
+      max-width: 720px;
+    }
+
+    .section-heading h2 {
+      color: var(--purple);
+      font-size: clamp(1.9rem, 7vw, 3rem);
+      line-height: 1.05;
+      margin: 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 14px 0 0;
+      max-width: 58ch;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+    }
+
+    .step-card,
+    .note-card,
+    .tab-content,
+    .final-card {
+      background: rgba(255, 252, 246, 0.78);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-card {
+      padding: 22px;
+    }
+
+    .step-num {
+      color: var(--gold);
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .step-card strong {
+      color: var(--purple);
+      display: block;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.35rem;
+      line-height: 1.2;
+      overflow-wrap: break-word;
+    }
+
+    .note-card {
+      box-shadow: none;
+      color: var(--muted);
+      margin-top: 16px;
+      padding: 18px 20px;
+    }
+
+    .menu-shell {
+      display: grid;
+      gap: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 0 -20px;
+      overflow-x: auto;
+      padding: 0 20px 10px;
+      scrollbar-width: thin;
+    }
+
+    .tab-button {
+      appearance: none;
+      background: rgba(255, 252, 246, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      cursor: pointer;
+      flex: 0 0 auto;
+      font: inherit;
+      font-size: 0.93rem;
+      font-weight: 700;
+      line-height: 1.2;
+      min-height: 42px;
+      padding: 10px 16px;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .tab-button[aria-selected="true"] {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: var(--cream);
+    }
+
+    .tab-content {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .tab-content[hidden] {
+      display: none;
+    }
+
+    .department-top {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .department-top h3 {
+      color: var(--purple);
+      font-size: clamp(1.85rem, 7vw, 3rem);
+      line-height: 1.05;
+      margin: 0;
+    }
+
+    .pain {
+      border-left: 2px solid var(--gold);
+      color: var(--muted);
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .department-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .content-block h4 {
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.17em;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+    }
+
+    .fit-list,
+    .plain-list,
+    .teach-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .fit-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fit-list li,
+    .plain-list li,
+    .teach-grid li {
       position: relative;
-      padding-left: 18px;
-      margin: 0 0 7px;
-      font-size: 0.98rem;
-      color: var(--ink);
-      opacity: 0.9;
     }
-    .card li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.62em;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
+
+    .fit-list li {
+      background: rgba(247, 243, 233, 0.82);
+      border: 1px solid rgba(181, 166, 100, 0.2);
+      border-radius: 6px;
+      color: var(--ink);
+      padding: 12px 14px 12px 30px;
+    }
+
+    .fit-list li::before,
+    .plain-list li::before,
+    .teach-grid li::before {
       background: var(--gold);
+      border-radius: 50%;
+      content: "";
+      height: 6px;
+      left: 14px;
+      position: absolute;
+      top: 1.05em;
+      width: 6px;
     }
-    footer.wrap {
-      border-top: 1px solid var(--gold);
-      margin-top: 80px;
-      padding: 32px 24px 48px;
-      font-size: 0.9rem;
+
+    .learning,
+    .guardrail {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .learning + h4 {
+      margin-top: 28px;
+    }
+
+    .guardrail {
+      background: rgba(78, 42, 132, 0.06);
+      border: 1px solid rgba(78, 42, 132, 0.14);
+      border-radius: 6px;
       color: var(--ink);
-      opacity: 0.75;
+      padding: 16px;
     }
-    footer .brand { font-weight: 600; opacity: 1; }
-    footer a { color: var(--purple); text-decoration: none; }
-    footer a:hover { color: var(--gold); }
+
+    .teach-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .teach-grid li {
+      background: var(--paper);
+      border: 1px solid rgba(181, 166, 100, 0.24);
+      border-radius: 6px;
+      padding: 14px 14px 14px 32px;
+    }
+
+    .plain-list {
+      display: grid;
+      gap: 10px;
+      max-width: 760px;
+    }
+
+    .plain-list li {
+      padding-left: 26px;
+    }
+
+    .plain-list li::before {
+      left: 2px;
+      top: 0.72em;
+    }
+
+    .final-card {
+      align-items: start;
+      display: grid;
+      gap: 20px;
+      padding: 26px;
+    }
+
+    .final-card h2 {
+      color: var(--purple);
+      font-size: clamp(1.9rem, 7vw, 3.2rem);
+      line-height: 1.05;
+      margin: 0;
+      max-width: 12ch;
+    }
+
+    .final-card p {
+      color: var(--muted);
+      margin: 0;
+      max-width: 58ch;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 28px 0 44px;
+    }
+
+    .footer-brand {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footer-brand:hover {
+      color: var(--purple);
+    }
+
+    @media (min-width: 720px) {
+      body {
+        font-size: 17px;
+      }
+
+      .wrap {
+        width: min(1120px, calc(100% - 64px));
+      }
+
+      .hero {
+        padding: 78px 0 62px;
+      }
+
+      h1 {
+        max-width: 11ch;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .tab-content {
+        padding: 34px;
+      }
+
+      .department-top {
+        grid-template-columns: 0.82fr 1.18fr;
+        align-items: start;
+      }
+
+      .department-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(270px, 0.9fr);
+      }
+
+      .teach-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .final-card {
+        grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr);
+        padding: 38px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .brandbar {
+        align-items: start;
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .toplink {
+        justify-self: start;
+        white-space: normal;
+      }
+
+      .hero-panel {
+        padding-left: 16px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+
+      .button {
+        padding-left: 16px;
+        padding-right: 16px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .tabs {
+        margin-left: -16px;
+        margin-right: -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .section {
+        padding: 68px 0;
+      }
+
+      .teach-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
-  <header class="page wrap">
-    <p class="eyebrow">Futureproof by Chiibitsu Labs</p>
-    <h1>AI @ Work:<span class="lab">Use Case Menu</span></h1>
-    <p class="tagline">Where AI fits how your team already works.</p>
-    <hr class="hairline" />
+  <div class="wrap">
+    <nav class="brandbar" aria-label="Primary">
+      <a class="brandmark" href="https://chiibitsu.com" aria-label="Chiibitsu Labs home">
+        <span class="brandmark-text">
+          <strong>Chiibitsu Labs</strong>
+          <span>more human, by design.</span>
+        </span>
+      </a>
+      <a class="toplink" href="https://go.chiibitsu.com/aiworkshop">Book a Use Case Lab</a>
+    </nav>
+  </div>
+
+  <header class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">AI @ Work · Use Case Menu</p>
+        <h1>AI for the work already on your desk.</h1>
+        <p class="subheadline">A practical menu for teams who want to know where AI actually fits ~ by department, pain, and workflow.</p>
+      </div>
+      <div class="hero-panel">
+        <p>Most teams do not need another AI talk. They need to see which part of their real work is ready for AI now.</p>
+        <div class="actions">
+          <a class="button primary" href="https://go.chiibitsu.com/aiworkshop">Book a Use Case Lab</a>
+          <a class="button secondary" href="#menu">Explore the menu</a>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main class="wrap">
-    <div class="grid">
+  <hr class="hairline wrap" />
 
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 9 9 0 0 1-3.8-.8L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.38 8.38 0 0 1 9 8.5z"/>
-        </svg>
-        <p class="num">01</p>
-        <h2>Communicate &amp; Respond</h2>
-        <ul>
-          <li>Inquiry → polished reply</li>
-          <li>Follow-up sequences</li>
-          <li>Internal Q&amp;A</li>
-        </ul>
-      </article>
+  <main>
+    <section class="section wrap" aria-labelledby="how-to-use">
+      <div class="section-heading">
+        <h2 id="how-to-use">How to use this menu</h2>
+      </div>
+      <div class="steps">
+        <article class="step-card">
+          <span class="step-num">Step 1</span>
+          <strong>Pick a department.</strong>
+        </article>
+        <article class="step-card">
+          <span class="step-num">Step 2</span>
+          <strong>Find a familiar pain.</strong>
+        </article>
+        <article class="step-card">
+          <span class="step-num">Step 3</span>
+          <strong>Choose one workflow worth improving.</strong>
+        </article>
+      </div>
+      <p class="note-card">The goal is not to automate everything. The goal is to start where AI can help without removing human judgment.</p>
+    </section>
 
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 19l7-7 3 3-7 7-3-3z"/>
-          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-          <path d="M2 2l7.586 7.586"/>
-          <circle cx="11" cy="11" r="2"/>
-        </svg>
-        <p class="num">02</p>
-        <h2>Create &amp; Produce</h2>
-        <ul>
-          <li>Content &amp; materials</li>
-          <li>Slide decks</li>
-          <li>Images</li>
-          <li>Video</li>
-          <li>Podcasts</li>
-        </ul>
-      </article>
+    <section class="section wrap" id="menu" aria-labelledby="department-menu">
+      <div class="section-heading">
+        <h2 id="department-menu">Department menu</h2>
+        <p>Choose the part of the business where work is already repeating, slowing down, or depending too much on memory.</p>
+      </div>
 
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 3v18h18"/>
-          <path d="M7 15l3-4 3 2 4-6"/>
-        </svg>
-        <p class="num">03</p>
-        <h2>Analyze &amp; Report</h2>
-        <ul>
-          <li>Photos/data → Excel</li>
-          <li>Financial analysis</li>
-          <li>Summaries &amp; charts</li>
-        </ul>
-      </article>
+      <div class="menu-shell">
+        <div class="tabs" role="tablist" aria-label="AI @ Work departments">
+          <button class="tab-button" type="button" role="tab" id="tab-sales" aria-controls="panel-sales" aria-selected="true">Sales &amp; Customer</button>
+          <button class="tab-button" type="button" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1">Data &amp; Reporting</button>
+          <button class="tab-button" type="button" role="tab" id="tab-operations" aria-controls="panel-operations" aria-selected="false" tabindex="-1">Operations</button>
+          <button class="tab-button" type="button" role="tab" id="tab-hr" aria-controls="panel-hr" aria-selected="false" tabindex="-1">HR &amp; Admin</button>
+          <button class="tab-button" type="button" role="tab" id="tab-leadership" aria-controls="panel-leadership" aria-selected="false" tabindex="-1">Leadership</button>
+          <button class="tab-button" type="button" role="tab" id="tab-logistics" aria-controls="panel-logistics" aria-selected="false" tabindex="-1">Logistics &amp; Frontline</button>
+          <button class="tab-button" type="button" role="tab" id="tab-systems" aria-controls="panel-systems" aria-selected="false" tabindex="-1">Systems &amp; Knowledge</button>
+        </div>
 
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <path d="M16 2v4M8 2v4M3 10h18"/>
-          <path d="M9 16l2 2 4-4"/>
-        </svg>
-        <p class="num">04</p>
-        <h2>Organize &amp; Coordinate</h2>
-        <ul>
-          <li>Scheduling</li>
-          <li>Status updates</li>
-          <li>Meeting notes &amp; notifications</li>
-          <li>Approvals prep</li>
-        </ul>
-      </article>
+        <article class="tab-content" id="panel-sales" role="tabpanel" aria-labelledby="tab-sales">
+          <div class="department-top">
+            <h3>Sales &amp; Customer</h3>
+            <p class="pain">Leads come from too many places. Replies are inconsistent. Follow-ups get missed. The same questions keep coming back.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>FB / IG / Viber / WhatsApp inquiries ~ CRM updates + custom replies</li>
+                <li>Lead lists ~ personalized follow-up sequences</li>
+                <li>Customer questions ~ answer library in your brand voice</li>
+                <li>Sales calls or chat threads ~ deal summaries + next steps</li>
+                <li>Objections ~ response guide for the team</li>
+                <li>Old customer conversations ~ patterns, FAQs, and buying signals</li>
+                <li>Campaign ideas ~ content calendar + first drafts</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to give AI enough company context, keep replies human, review before sending, and stop turning every reply into a one-off manual task.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">AI can draft, summarize, organize, and suggest. A person should still approve pricing, promises, discounts, complaints, and relationship-sensitive replies.</p>
+            </div>
+          </div>
+        </article>
 
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 7l9-4 9 4-9 4-9-4z"/>
-          <path d="M3 7v10l9 4 9-4V7"/>
-          <path d="M12 11v10"/>
-        </svg>
-        <p class="num">05</p>
-        <h2>Build (No-Code)</h2>
-        <ul>
-          <li>Website</li>
-          <li>Custom chatbot</li>
-          <li>Brand guide</li>
-          <li>Simple tools</li>
-        </ul>
-      </article>
+        <article class="tab-content" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+          <div class="department-top">
+            <h3>Data &amp; Reporting</h3>
+            <p class="pain">Data is everywhere. Sheets are messy. Reports take too long. Numbers are available but not useful.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>Messy raw data ~ board-ready dashboard reports</li>
+                <li>Receipts, invoices, expenses ~ tracker + anomaly flags</li>
+                <li>Spreadsheet exports ~ plain-English summary</li>
+                <li>Budget vs actuals ~ variance explanation</li>
+                <li>Sales numbers ~ trends, gaps, and next questions</li>
+                <li>Manual reports ~ repeatable report templates</li>
+                <li>Meeting notes plus numbers ~ management-ready briefing</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to prepare clean input, avoid screenshot chaos when a sheet or Markdown file works better, ask better questions from the numbers, and check AI output before using it.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">AI can organize and explain financial information. Accounting, tax, compliance, and final financial decisions still need qualified human review.</p>
+            </div>
+          </div>
+        </article>
 
-    </div>
+        <article class="tab-content" id="panel-operations" role="tabpanel" aria-labelledby="tab-operations" hidden>
+          <div class="department-top">
+            <h3>Operations</h3>
+            <p class="pain">The business runs on memory. Processes live in people's heads. SOPs exist but nobody uses them. Errors repeat.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>SOP notes ~ clean step-by-step procedures</li>
+                <li>Daily updates ~ operations brief + next actions</li>
+                <li>Task handoffs ~ checklist + owner assignment</li>
+                <li>Error logs ~ pattern summary</li>
+                <li>Recurring issues ~ improvement recommendations</li>
+                <li>Process notes ~ workflow map</li>
+                <li>Team questions ~ internal operations assistant</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to turn messy work into structured workflows, create reusable prompts, document once and reuse often, and build good AI habits around actual work.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">AI can help clarify the work. Managers still need to validate what is safe, legal, realistic, and actually usable by the team.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="tab-content" id="panel-hr" role="tabpanel" aria-labelledby="tab-hr" hidden>
+          <div class="department-top">
+            <h3>HR &amp; Admin</h3>
+            <p class="pain">New hires ask the same questions. Policies are hard to find. Memos take time. HR documentation is sensitive. Admin work keeps stealing focus.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>New hire questions ~ onboarding assistant</li>
+                <li>Policy questions ~ staff-friendly answers</li>
+                <li>Memo notes ~ cleaner first draft</li>
+                <li>HR case notes ~ clearer documentation for review</li>
+                <li>Training material ~ quiz + checklist</li>
+                <li>Admin emails ~ polished drafts</li>
+                <li>Role descriptions ~ clearer responsibilities</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to write with clarity, protect private employee information, use AI for support without outsourcing judgment, and create review habits before anything is sent.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">AI should support HR drafting. It should not replace due process, confidentiality, legal review, or human responsibility.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="tab-content" id="panel-leadership" role="tabpanel" aria-labelledby="tab-leadership" hidden>
+          <div class="department-top">
+            <h3>Leadership</h3>
+            <p class="pain">Too many decisions escalate to the owner. Meetings create noise. Updates are scattered. The company memory lives in one person's head.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>Meeting audio ~ decisions + action tracker</li>
+                <li>Owner voice notes ~ decision memo</li>
+                <li>Department updates ~ weekly business brief</li>
+                <li>Company values ~ decision guide</li>
+                <li>Strategy notes ~ execution checklist</li>
+                <li>Recurring issues ~ leadership pattern summary</li>
+                <li>Scattered documents ~ searchable business memory</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to use AI for thinking, not just output. How to separate facts, assumptions, risks, and next actions. How to use different LLMs to challenge and audit each other.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">AI can sharpen a decision. It cannot carry accountability.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="tab-content" id="panel-logistics" role="tabpanel" aria-labelledby="tab-logistics" hidden>
+          <div class="department-top">
+            <h3>Logistics &amp; Frontline</h3>
+            <p class="pain">Updates come from chats, photos, calls, and handwritten notes. Frontline teams may not use the same tools as office teams. Instructions get misunderstood.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>Field updates ~ clean daily report</li>
+                <li>Delivery issues ~ tracker + priority flags</li>
+                <li>Fuel and KM logs ~ anomaly detection</li>
+                <li>Inventory photos or notes ~ stock update draft</li>
+                <li>Supplier information ~ comparison summary</li>
+                <li>English instructions ~ Tagalog or Taglish frontline message</li>
+                <li>Safety reminders ~ simple team announcements</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to design AI around the tools people already use, simplify instructions, respect language/device/access limits, and avoid fancy systems the actual team will not adopt.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">The best AI workflow is the one the team can actually use.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="tab-content" id="panel-systems" role="tabpanel" aria-labelledby="tab-systems" hidden>
+          <div class="department-top">
+            <h3>Systems &amp; Knowledge</h3>
+            <p class="pain">The company needs a tracker, dashboard, portal, chatbot, or app. The process is manual but repeatable. Docs are scattered.</p>
+          </div>
+          <div class="department-grid">
+            <div class="content-block">
+              <h4>Possible AI fits</h4>
+              <ul class="fit-list">
+                <li>Manual process ~ simple app prototype</li>
+                <li>Spreadsheet tracker ~ dashboard</li>
+                <li>FAQs and SOPs ~ internal assistant</li>
+                <li>Company docs ~ searchable knowledge base</li>
+                <li>Form submissions ~ automated routing</li>
+                <li>Repeated reports ~ auto-generated summaries</li>
+                <li>Workflow idea ~ no-code system blueprint</li>
+              </ul>
+            </div>
+            <div class="content-block">
+              <h4>What the team learns</h4>
+              <p class="learning">How to choose what to build first, prepare good source material, use Markdown/docs/structured files, match the right AI tool to the job, and turn useful experiments into repeatable workflows.</p>
+              <h4>Human guardrail</h4>
+              <p class="guardrail">Build after the workflow is clear. Automation before clarity just makes the mess faster.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="teaches">
+      <div class="section-heading">
+        <h2 id="teaches">Use cases are only the beginning.</h2>
+        <p>The real work is learning how to use AI properly.</p>
+      </div>
+      <ul class="teach-grid">
+        <li>Privacy and security basics</li>
+        <li>What not to upload</li>
+        <li>How to give AI useful context</li>
+        <li>How to prepare cleaner files</li>
+        <li>When to use Markdown, docs, sheets, images, or PDFs</li>
+        <li>How to reduce wasted tokens and messy prompts</li>
+        <li>Which LLM is stronger for which task</li>
+        <li>How to make different AI tools work together</li>
+        <li>How to make AI audit AI</li>
+        <li>How to review before sending, publishing, deciding, or building</li>
+        <li>How to turn one-off prompts into repeatable workflows</li>
+      </ul>
+    </section>
+
+    <section class="section wrap" aria-labelledby="start">
+      <div class="section-heading">
+        <h2 id="start">Start with the work that already repeats.</h2>
+      </div>
+      <ul class="plain-list">
+        <li>The task your team repeats every week</li>
+        <li>The report that takes too long</li>
+        <li>The customer question you keep answering</li>
+        <li>The process only one person understands</li>
+        <li>The follow-up that gets missed</li>
+        <li>The spreadsheet everyone uses but nobody fully trusts</li>
+        <li>The meeting that creates action items nobody tracks</li>
+        <li>The manual process you wish was a simple app</li>
+      </ul>
+    </section>
+
+    <section class="section wrap" aria-labelledby="final-cta">
+      <div class="final-card">
+        <h2 id="final-cta">Want help choosing the right first workflow?</h2>
+        <div>
+          <p>AI @ Work helps teams find one useful place to start, practice safely, and build better AI habits inside the work they already do.</p>
+          <div class="actions" style="margin-top: 22px;">
+            <a class="button primary" href="https://go.chiibitsu.com/aiworkshop">Book a Use Case Lab</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="wrap">
-    <span class="brand">Chiibitsu Labs ~ more human, by design</span> · <a href="https://go.chiibitsu.com/aiworkshop">go.chiibitsu.com/aiworkshop</a>
+    <a class="footer-brand" href="https://chiibitsu.com">Chiibitsu Labs</a> ~ more human, by design.
   </footer>
+
+  <script>
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+    function selectTab(tab) {
+      tabs.forEach((item) => {
+        const isSelected = item === tab;
+        item.setAttribute('aria-selected', String(isSelected));
+        item.tabIndex = isSelected ? 0 : -1;
+      });
+
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        const previous = index === 0 ? tabs[tabs.length - 1] : tabs[index - 1];
+        const next = index === tabs.length - 1 ? tabs[0] : tabs[index + 1];
+
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          previous.focus();
+          selectTab(previous);
+        }
+
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          next.focus();
+          selectTab(next);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
