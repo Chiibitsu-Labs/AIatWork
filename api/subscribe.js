@@ -63,13 +63,10 @@ module.exports = async function handler(req, res) {
   const segments = [{ id: mergSegmentId }];
   if (wantsFutureUpdates) segments.push({ id: futureUpdatesSegmentId });
 
-  const properties = roleOrDepartment ? { roleOrDepartment } : undefined;
-
   const createResult = await resend.contacts.create({
     email,
     firstName,
     lastName,
-    properties,
     segments,
   });
 
