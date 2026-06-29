@@ -1,61 +1,91 @@
-// Tally → Telegram booking alert
-// Drop this in your AIatWork Vercel repo as:  api/tally-webhook.js
-// It fires you a Telegram message every time someone completes the booking form.
+// Tally -> Telegram booking alert.
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).send('Method not allowed');
+const TELEGRAM_API_BASE = 'https://api.telegram.org';
 
-  const TOKEN   = process.env.TELEGRAM_BOT_TOKEN;   // set in Vercel env vars
-  const CHAT_ID = process.env.TELEGRAM_CHAT_ID;     // set in Vercel env vars
+function getFieldValue(fields, label) {
+  const field = fields.find((item) =>
+    String(item?.label || '').toLowerCase().includes(label.toLowerCase())
+  );
+
+  if (!field) return '';
+  if (Array.isArray(field.value)) {
+    return field.value.map((item) => item?.url || item?.name || item).join(', ');
+  }
+
+  return field.value ?? '';
+}
+
+function formatLine(label, value) {
+  return value ? `${label}: ${value}` : null;
+}
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  }
+
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.error('tally-webhook missing Telegram environment variables');
+    return res.status(500).json({
+      ok: false,
+      error: 'Missing Telegram environment variables',
+    });
+  }
 
   try {
-    const fields = req.body?.data?.fields || [];
+    const data = req.body?.data || {};
+    const fields = Array.isArray(data.fields) ? data.fields : [];
 
-    // grab a field's value by matching part of its label (case-insensitive)
-    const get = (label) => {
-      const f = fields.find(x => (x.label || '').toLowerCase().includes(label.toLowerCase()));
-      if (!f) return '';
-      // file uploads come back as an array of { url }
-      if (Array.isArray(f.value)) return f.value.map(v => v?.url || v).join(', ');
-      return f.value ?? '';
-    };
-
-    const formName = req.body?.data?.formName || 'AI @ Work booking';
-    const name   = get('Your name');
-    const email  = get('Your email');
-    const others = get('How many others');
-    const code   = get('Referral code');
-    const total  = get('total');          // the calculated total field
-    const ref    = get('reference');      // payment reference number
-    const proof  = get('proof');          // receipt upload url(s)
+    const formName = data.formName || 'AI @ Work booking';
+    const name = getFieldValue(fields, 'Your name');
+    const email = getFieldValue(fields, 'Your email');
+    const others = getFieldValue(fields, 'How many others');
+    const code = getFieldValue(fields, 'Referral code');
+    const total = getFieldValue(fields, 'total');
+    const ref = getFieldValue(fields, 'reference');
+    const proof = getFieldValue(fields, 'proof');
 
     const lines = [
-      `🎉 *New booking* — ${formName}`,
-      ``,
-      `👤 ${name}`,
-      `✉️ ${email}`,
-      others ? `➕ Others joining: ${others}` : null,
-      code   ? `🏷️ Code: ${code}`            : null,
-      total  ? `💰 Total: ₱${total}`          : null,
-      ref    ? `🧾 Ref #: ${ref}`             : null,
-      proof  ? `📎 Proof: ${proof}`           : null,
+      `New booking - ${formName}`,
+      '',
+      formatLine('Name', name),
+      formatLine('Email', email),
+      formatLine('Others joining', others),
+      formatLine('Code', code),
+      formatLine('Total', total ? `PHP ${total}` : ''),
+      formatLine('Ref #', ref),
+      formatLine('Proof', proof),
     ].filter(Boolean);
 
-    await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: lines.join('\n'),
-        parse_mode: 'Markdown',
-        disable_web_page_preview: true,
-      }),
-    });
+    const telegramResponse = await fetch(
+      `${TELEGRAM_API_BASE}/bot${token}/sendMessage`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: lines.join('\n'),
+          disable_web_page_preview: true,
+        }),
+      }
+    );
+
+    if (!telegramResponse.ok) {
+      const telegramError = await telegramResponse.text();
+      console.error('tally-webhook telegram error:', telegramError);
+      return res.status(502).json({
+        ok: false,
+        error: 'Telegram send failed',
+      });
+    }
 
     return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error('tally-webhook error:', e);
-    // still return 200 so Tally doesn't keep retrying
-    return res.status(200).json({ ok: false, error: String(e) });
+  } catch (error) {
+    console.error('tally-webhook error:', error);
+    return res.status(500).json({ ok: false, error: 'Webhook failed' });
   }
-}
+};
