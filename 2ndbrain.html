@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Second Brain · Chiibitsu Labs</title>
+<meta name="description" content="Sync your Obsidian notes to GitHub — laptop and iPhone. Plugin on desktop, iSH on mobile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#1A0F2E; --gold:#B5A664; --cream:#F7F3E9;
+    --ink:#2a2333; --dim:#6b6478; --line:#e3ddce; --card:#ffffff;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--ink);font-family:var(--sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 20px}
+  .wrap{max-width:680px;margin:0 auto;padding:64px 0 80px}
+
+  .eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:18px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,9vw,60px);
+    line-height:1.02;color:var(--purple);letter-spacing:-.01em}
+  .sub{font-family:var(--serif);font-style:italic;font-size:clamp(20px,4.5vw,26px);
+    color:var(--dim);margin-top:12px}
+  .why{margin-top:26px;font-size:16px;color:var(--ink);max-width:56ch}
+
+  .rule{height:1px;background:var(--line);margin:44px 0}
+
+  .step-label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    font-weight:600;color:var(--dim);margin-bottom:14px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,6vw,34px);
+    color:var(--purple);margin-bottom:4px}
+
+  .keystone{background:var(--purple);color:var(--cream);border-radius:16px;
+    padding:30px 28px;margin-top:8px}
+  .keystone .step-label{color:var(--gold)}
+  .keystone h2{color:var(--cream)}
+  .keystone .tag{display:inline-block;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;background:var(--gold);color:var(--purple);
+    font-weight:600;padding:4px 10px;border-radius:100px;margin-bottom:14px}
+
+  ol{list-style:none;counter-reset:s;margin-top:18px}
+  ol li{counter-increment:s;position:relative;padding-left:44px;margin-bottom:16px;font-size:16px}
+  ol li::before{content:counter(s);position:absolute;left:0;top:-1px;
+    width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--purple);
+    font-family:var(--sans);font-weight:600;font-size:14px;
+    display:flex;align-items:center;justify-content:center}
+
+  .device{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:28px;margin-top:22px}
+  .device ol li::before{background:var(--purple);color:var(--cream)}
+
+  a{color:inherit;text-decoration:underline;text-decoration-color:var(--gold);
+    text-underline-offset:3px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;
+    background:rgba(26,15,46,.07);padding:2px 7px;border-radius:6px;word-break:break-all}
+  .keystone code{background:rgba(247,243,233,.16)}
+  pre{background:var(--purple);color:var(--cream);border-radius:10px;
+    padding:14px 16px;margin-top:10px;overflow-x:auto;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.6}
+  b{font-weight:600}
+
+  .warn{margin-top:34px;border-left:3px solid var(--gold);
+    background:#fbf8ef;border-radius:0 12px 12px 0;padding:20px 22px;font-size:15.5px}
+  .warn .t{font-weight:600;color:var(--purple);margin-bottom:8px}
+  .warn b{color:var(--purple)}
+
+  .cta{margin-top:40px;background:var(--purple);color:var(--cream);border-radius:16px;
+    padding:26px 28px;font-size:17px;font-family:var(--serif);font-style:italic}
+  .cta a{color:var(--gold);font-style:normal;font-family:var(--sans);font-weight:600;
+    font-size:15px;white-space:nowrap;text-decoration:none;border-bottom:1px solid var(--gold)}
+  footer{margin-top:40px;padding-top:26px;border-top:1px solid var(--line)}
+  .brand{font-family:var(--serif);font-size:20px;color:var(--purple);font-weight:600;letter-spacing:.02em}
+  .brand span{font-style:italic;font-weight:500;color:var(--dim);font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Chiibitsu Labs</div>
+  <h1>Your Second Brain</h1>
+  <div class="sub">Your notes, synced everywhere &mdash; and always yours.</div>
+  <p class="why">Your Obsidian notes live in your own private GitHub repo. Same notes on your laptop and your iPhone, versioned and backed up. You own the vault; the tools just read it. Plugin on desktop, a small shell called iSH on mobile.</p>
+
+  <div class="rule"></div>
+
+  <div class="keystone">
+    <span class="tag">Do this first</span>
+    <div class="step-label">One-time setup &middot; ~5 min</div>
+    <h2>Set up GitHub</h2>
+    <ol>
+      <li>Create a <b>private</b> GitHub repo &mdash; call it something like <code>second-brain</code>.</li>
+      <li>Make an access token: <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> &rarr; <b>Generate new token</b> &rarr; give it that one repo &rarr; set <b>Contents: Read and write</b> &rarr; generate, then <b>copy it</b> (shown only once).</li>
+      <li>Keep it somewhere safe. This token is the &ldquo;password&rdquo; both devices use.</li>
+    </ol>
+  </div>
+
+  <div class="device">
+    <div class="step-label">On your laptop</div>
+    <h2>Obsidian Git plugin</h2>
+    <ol>
+      <li>Install Git from <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a>.</li>
+      <li>Obsidian &rarr; Settings &rarr; Community plugins &rarr; turn on &rarr; Browse &rarr; <b>Obsidian Git</b> &rarr; Install &rarr; Enable.</li>
+      <li>Press <code>Ctrl/Cmd-P</code> &rarr; <b>&ldquo;Obsidian Git: Clone an existing remote repo&rdquo;</b> &rarr; paste your repo URL. Username = GitHub name, password = <b>your token</b>.</li>
+      <li>In Obsidian Git settings, set <b>auto commit-and-sync</b> to every 10 minutes. Done.</li>
+    </ol>
+  </div>
+
+  <div class="device">
+    <div class="step-label">On your iPhone &middot; one-time</div>
+    <h2>Set up iSH</h2>
+    <ol>
+      <li>In Obsidian, create a new <b>empty</b> vault saved to <b>On My iPhone</b> (not iCloud &mdash; iCloud causes conflicts). Close Obsidian.</li>
+      <li>Install <b>iSH</b> from the App Store, open it, then install Git and set it up &mdash; paste:
+<pre>apk add git
+git config --global user.name "Your Name"
+git config --global user.email "you@email.com"
+git config --global credential.helper store</pre></li>
+      <li>Mount your vault: <code>mount -t ios . /mnt</code> &mdash; the Files picker opens; pick your vault folder (On My iPhone &rarr; Obsidian &rarr; your vault).</li>
+      <li>Connect it to your repo (first time only):
+<pre>cd /mnt
+git init
+git remote add origin https://github.com/USER/REPO.git
+git branch -M main
+git pull origin main</pre>
+      Username = GitHub name, password = <b>your token</b> (saved after this).</li>
+    </ol>
+  </div>
+
+  <div class="device">
+    <div class="step-label">On your iPhone &middot; every time</div>
+    <h2>The routine</h2>
+    <ol>
+      <li><b>Re-mount</b> (resets every time you close iSH): <code>mount -t ios . /mnt</code> &rarr; pick your vault folder.</li>
+      <li><b>Before</b> editing, pull the latest: <pre>cd /mnt && git pull</pre></li>
+      <li>Edit your notes in Obsidian as normal.</li>
+      <li><b>After</b> editing, back in iSH, push: <pre>git add -A && git commit -m "sync" && git push</pre></li>
+    </ol>
+  </div>
+
+  <div class="warn">
+    <div class="t">Three things that trip people up</div>
+    &bull; The iSH mount <b>resets every time you close the app</b> &mdash; always re-mount first.<br>
+    &bull; Use your <b>token</b> as the password, never your GitHub account password.<br>
+    &bull; Once, on desktop, add a file <code>.gitignore</code> containing <code>.obsidian/workspace.json</code> so your phone and laptop don&rsquo;t fight over layout.
+  </div>
+
+  <div class="cta">
+    Stuck, or want it set up with you? <a href="https://book.chiibitsu.com" target="_blank" rel="noopener">Book a 1:1 call &rarr;</a>
+  </div>
+
+  <footer>
+    <div class="brand">Chiibitsu Labs <span>&middot; more human, by design</span></div>
+  </footer>
+
+</div>
+</body>
+</html>
