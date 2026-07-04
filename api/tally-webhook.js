@@ -13,6 +13,7 @@ export default async function handler(req, res) {
 
     const nameField =
       findField((l) => l.includes('full name')) ||
+      findField((l) => l.includes('main contact')) ||
       findField((l) => l.includes('name') && !l.includes('company'));
     const companyField = findField((l) => l.includes('company'));
     const referralField = findField((l) => l.includes('referred'));
