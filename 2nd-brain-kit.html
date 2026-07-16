@@ -1,0 +1,471 @@
+<!doctype html>
+<!-- Second Brain Kit — built by Chiibitsu Labs · chiibitsu.com · labs@chiibitsu.com -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiibitsu Labs — Second Brain Setup</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Chiibitsu Labs brand system (see chiibitsu-labs/aiatwork) — purple +
+     gold on a deep aubergine ground, dark by request. */
+  :root {
+    --paper:#16101F;--paper-2:#0D0815;--card:#221934;--ink:#F5EFE4;--ink-soft:#CDC2DE;
+    --muted:#8F81A6;--line:rgba(181,166,100,.28);--accent:#5B3495;--accent-ink:#B79EE8;--honey:#C7B577;--honey-ink:#C7B577;
+    --danger:#E08677;--radius:14px;
+    --serif:'Playfair Display','Iowan Old Style',Georgia,'Times New Roman',serif;
+    --sans:'Inter',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  }
+  /* --honey-ink is a darkened honey for small TEXT (eyebrows, OS tags) —
+     the true brand gold (--honey) is ~2.2:1 on the light cream page bg,
+     under WCAG AA; --honey-ink keeps the gold hue but reads at ~5.5:1.
+     Backgrounds/borders/dividers keep using --honey, which is fine there
+     since it isn't carrying text contrast. */
+  @media (prefers-color-scheme:light){:root{
+    --paper:#F7F3E9;--paper-2:#FFFCF6;--card:#FFFCF6;--ink:#2B2330;--ink-soft:#4A3F51;
+    --muted:#695F6D;--line:rgba(181,166,100,.38);--accent:#4E2A84;--accent-ink:#3D2068;--honey:#B5A664;--honey-ink:#7A5E28;--danger:#B23A34;
+  }}
+  :root[data-theme="light"]{--paper:#F7F3E9;--paper-2:#FFFCF6;--card:#FFFCF6;--ink:#2B2330;--ink-soft:#4A3F51;--muted:#695F6D;--line:rgba(181,166,100,.38);--accent:#4E2A84;--accent-ink:#3D2068;--honey:#B5A664;--honey-ink:#7A5E28;--danger:#B23A34;}
+  :root[data-theme="dark"]{--paper:#16101F;--paper-2:#0D0815;--card:#221934;--ink:#F5EFE4;--ink-soft:#CDC2DE;--muted:#8F81A6;--line:rgba(181,166,100,.28);--accent:#5B3495;--accent-ink:#B79EE8;--honey:#C7B577;--honey-ink:#C7B577;--danger:#E08677;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent-ink)}
+  .btn{border:0;border-radius:4px;padding:.7rem 1rem;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:.95rem;background:var(--accent);color:#F5EFE4;white-space:nowrap;text-decoration:none;display:inline-block;transition:background .2s ease,transform .2s ease}
+  .btn:hover{background:#7448BE;transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--accent-ink);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--honey);background:color-mix(in srgb,var(--honey) 8%,transparent);transform:none}
+  .btn.big{font-size:1.05rem;padding:.85rem 1.4rem}
+  input[type=text]{width:100%;padding:.7rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--paper-2);color:var(--ink);font-family:var(--sans);font-size:1rem}
+  input:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--honey);outline-offset:2px}
+  header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--paper) 82%,transparent);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:54rem;margin:0 auto;padding:.8rem 1.25rem;display:flex;align-items:center;gap:.6rem}
+  .wordmark{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--accent-ink)}
+  .wordmark .dot{color:var(--honey)}
+  .tagchip{margin-left:auto;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem}
+  .progress{height:3px;background:var(--line)}
+  .progress>span{display:block;height:100%;width:0;background:var(--honey);transition:width .3s ease}
+  main{max-width:54rem;margin:0 auto;padding:0 1.25rem 5rem}
+  .hero{padding:3rem 0 1rem;position:relative;overflow:hidden}
+  .hero .s{position:absolute;color:var(--honey);opacity:.35;font-size:1.1rem;pointer-events:none;line-height:1}
+  .hero .s.p{color:var(--accent-ink);opacity:.3}
+  .hero .s.sm{font-size:.7rem}
+  .hero .s.lg{font-size:1.5rem}
+  .eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;color:var(--honey-ink);font-weight:700}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:.6rem 0 .5rem;text-wrap:balance;letter-spacing:-.01em;color:var(--accent-ink)}
+  .hero p{font-size:1.12rem;color:var(--ink-soft);max-width:44ch;position:relative}
+  .leadgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1.5rem 0}
+  .leadgrid .lc{border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;background:var(--card)}
+  .leadgrid .lc b{display:block;font-size:.9rem;margin-bottom:.2rem}
+  .leadgrid .lc span{font-size:.8rem;color:var(--muted)}
+  .time{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;margin-top:.4rem}
+  .phase{padding:2.4rem 0 .5rem;border-top:1px solid var(--line)}
+  .phase-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.2rem}
+  .num{flex:none;width:1.9rem;height:1.9rem;border-radius:999px;display:grid;place-items:center;font-family:var(--serif);font-weight:600;background:color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent-ink);font-size:1rem}
+  .phase h2{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:0;letter-spacing:-.01em;color:var(--accent-ink)}
+  .phase .sub{color:var(--muted);font-size:.9rem;margin:.1rem 0 0 2.7rem}
+  .body{padding-left:2.7rem}
+  .phase p{margin:.6rem 0;color:var(--ink-soft)}
+  .phase ul,.phase ol{margin:.5rem 0;padding-left:1.2rem;color:var(--ink-soft)}
+  .phase li{margin:.35rem 0}
+  strong{color:var(--ink)}
+  h3.mini{font-size:1rem;margin:1.4rem 0 .3rem;font-family:var(--sans);font-weight:700;color:var(--ink)}
+  .os{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.1rem .45rem;border-radius:6px;background:color-mix(in srgb,var(--honey) 16%,transparent);color:var(--honey-ink);vertical-align:middle;margin-right:.35rem}
+  .cmd{position:relative;background:#0C0714;color:#F2ECE0;border-radius:8px;padding:.9rem 3rem .9rem 1rem;margin:.7rem 0;font-family:var(--mono);font-size:.82rem;line-height:1.5;overflow-x:auto;white-space:pre;border:1px solid rgba(181,166,100,.2)}
+  .cmd .copy{position:absolute;top:.5rem;right:.5rem;border:0;cursor:pointer;background:rgba(245,239,228,.12);color:#F2ECE0;border-radius:6px;padding:.3rem .55rem;font-size:.72rem;font-family:var(--sans);font-weight:600}
+  .cmd .copy:hover{background:var(--honey);color:#16101F}
+  .config{display:grid;gap:.9rem;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.25rem;margin:1.25rem 0}
+  .config .full{grid-column:1/-1}
+  .field label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.35rem}
+  .field .hint{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+  .secretgen{display:flex;gap:.5rem;margin:.5rem 0}
+  .secretgen .out{flex:1;font-family:var(--mono);font-size:.8rem;padding:.6rem .75rem;border:1px dashed var(--line);border-radius:8px;background:var(--paper-2);color:var(--ink);overflow-x:auto;white-space:nowrap;display:flex;align-items:center}
+  .secretgen .out.empty{color:var(--muted);font-family:var(--sans);font-style:italic}
+  .callout{display:flex;gap:.8rem;border-radius:8px;padding:1rem 1.15rem;margin:1rem 0;border:1px solid var(--line);background:var(--card)}
+  .callout .ic{flex:none;font-size:1.1rem}
+  .callout.warn{border-color:color-mix(in srgb,var(--honey) 45%,var(--line));background:color-mix(in srgb,var(--honey) 9%,var(--card))}
+  .callout.key{border-color:color-mix(in srgb,var(--accent-ink) 45%,var(--line));background:color-mix(in srgb,var(--accent) 14%,var(--card))}
+  .callout p{margin:0;color:var(--ink-soft);font-size:.92rem}
+  table.env{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.88rem}
+  table.env th,table.env td{text-align:left;padding:.55rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+  table.env th{color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+  table.env code{font-family:var(--mono);font-size:.82rem;color:var(--accent-ink)}
+  details{border:1px solid var(--line);border-radius:8px;padding:.2rem 1rem;margin:.8rem 0;background:var(--card)}
+  details[open]{padding-bottom:1rem}
+  summary{cursor:pointer;font-weight:600;padding:.85rem 0;font-size:.95rem;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'▸ ';color:var(--honey)}
+  details[open] summary::before{content:'▾ '}
+  .sec-grid{display:grid;gap:.8rem;grid-template-columns:1fr 1fr;margin-top:.5rem}
+  .sec-card{border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;background:var(--card)}
+  .sec-card h3{margin:0 0 .3rem;font-size:.95rem;color:var(--ink)}
+  .sec-card p{margin:0;font-size:.86rem;color:var(--ink-soft)}
+  .launch{margin:.4rem .5rem .4rem 0}
+  footer{border-top:1px solid var(--line);padding:2rem 0 0;margin-top:2rem;color:var(--muted);font-size:.85rem}
+  .toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%) translateY(1rem);background:var(--ink);color:var(--paper);padding:.6rem 1rem;border-radius:999px;font-size:.85rem;font-weight:600;opacity:0;pointer-events:none;transition:all .25s ease;z-index:60}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (max-width:640px){.config{grid-template-columns:1fr}.sec-grid{grid-template-columns:1fr}.leadgrid{grid-template-columns:1fr}.body{padding-left:0}.phase .sub{margin-left:0}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <span class="wordmark">Chiibitsu Labs<span class="dot">.</span></span>
+      <span class="tagchip">Second Brain — Full Setup</span>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="s" style="top:6%;left:4%" aria-hidden="true">✦</span>
+      <span class="s p sm" style="top:14%;left:92%" aria-hidden="true">✦</span>
+      <span class="s sm" style="top:78%;left:9%" aria-hidden="true">✧</span>
+      <span class="s lg p" style="top:62%;left:96%" aria-hidden="true">✦</span>
+      <div class="eyebrow">From absolutely nothing → done</div>
+      <h1>Give your AI a memory that’s yours.</h1>
+      <p>By the end of this, Claude and ChatGPT will read and write your personal notes — from your computer or your phone — and remember you between conversations. No coding. No developer tools.</p>
+      <div class="time">⏱️ About 30–40 minutes, once.</div>
+    </div>
+
+    <div class="leadgrid">
+      <div class="lc"><b>Any computer</b><span>Mac or Windows, old or new. Nothing to install to get started.</span></div>
+      <div class="lc"><b>No tech skills</b><span>If you can fill in a web form and click buttons, you can do this.</span></div>
+      <div class="lc"><b>Yours forever</b><span>Your notes live in your own accounts. You can walk away with them anytime.</span></div>
+    </div>
+
+    <div class="callout"><span class="ic">🧭</span><p><strong>How to read this:</strong> do the phases in order. Each one says exactly what to click. Where Mac and Windows differ, you'll see <span class="os">Mac</span> / <span class="os">Windows</span> tags. Optional extras (NotebookLM, Gemini, editing notes on your own computer) are near the end — skip them if you just want the AI memory working.</p></div>
+
+    <details><summary><strong>Already have an Obsidian vault?</strong> Start here instead.</summary>
+      <p>The one-click button below builds a <em>fresh</em> vault. If you already keep notes in Obsidian, you don't want a new one — you want to connect the vault you've got. Same result, slightly different first steps:</p>
+      <ol>
+        <li><strong>Get the kit files into your vault folder — before you publish anything.</strong>
+          <div class="callout"><span class="ic">✨</span><p><strong>Easiest way: let Claude do the copying.</strong> If you're willing to install Claude Code now (it's free — Phase&nbsp;5 below has the one-line install), open it in your vault folder and paste: <em>"Download the Chiibitsu Labs Second Brain Kit template and copy its vault-mcp/, .claude/, .github/, BACKUP.md, and .gitignore into this vault. Merge anything I already have (settings.json, .gitignore) instead of overwriting it, and don't touch my notes."</em> It reads hidden files and merges JSON correctly without you having to hunt for anything in Finder/Explorer — this sidesteps every step below.</p></div>
+          <p>Prefer to do it by hand? <a class="btn ghost" href="https://github.com/Chiibitsu-Labs/2nd-brain-kit/archive/refs/heads/main.zip">⬇ Download the kit (ZIP)</a> and copy into your Obsidian vault folder: the <code>vault-mcp/</code> folder (the connector), plus <code>.claude/</code> (memory), <code>.github/</code> and <code>BACKUP.md</code> (backups — the workflows alone don't explain themselves, copy the doc too) if you want those. <strong>Also copy the kit's <code>.gitignore</code> file into the top of your vault folder</strong> — it keeps Obsidian's per-device state (<code>.obsidian/workspace.json</code>, caches, <code>.trash/</code>) out of the repo. <strong>If you already have a <code>.gitignore</code></strong>, don't replace it — open the kit's copy and paste its lines onto the end of yours instead, so you don't lose exclusions you added on purpose (local exports, secrets, etc).</p>
+          <div class="callout"><span class="ic">🙈</span><p><strong>Mac: these are hidden files.</strong> Finder hides anything starting with a dot by default, so <code>.claude/</code>, <code>.github/</code>, and <code>.gitignore</code> won't show up in the downloaded kit's folder unless you reveal them first: press <strong>Cmd+Shift+.</strong> to toggle hidden files on, copy everything you need, then toggle it back off if you like.</p></div>
+          <div class="callout"><span class="ic">🔀</span><p><strong>Already using Claude Code in this vault?</strong> Don't copy the kit's <code>.claude/</code> folder straight over yours — that can silently replace your existing <code>settings.json</code> and hooks. Instead copy in only the new pieces (<code>.claude/hooks/improve-session-start.sh</code>, <code>.claude/hooks/improve-stop-nudge.sh</code>, <code>.claude/skills/improve/</code>), then open the kit's <code>.claude/settings.json</code> and merge its two hook entries into your own by hand rather than overwriting the file.</p></div>
+        </li>
+        <li><strong>Publish your vault as a private GitHub repo.</strong> No-code way: install <a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a> → <em>File → Add local repository</em> → choose your Obsidian vault folder. Your vault folder isn't a Git repository yet, so GitHub Desktop will say so and offer a link/button right there to <strong>create a repository</strong> in that same folder — click it (default settings are fine, just confirm the folder). Once that's done the <em>Publish repository</em> button appears in the top bar; click it and make sure <strong>“Keep this code private”</strong> is ticked.</li>
+        <li><strong>Make the connector's access key (a fine-grained GitHub token).</strong> The fresh-vault flow does this in Phase&nbsp;1 — you need it too, so don't skip it. Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Fine-grained tokens → Generate new token</a>. Name it <code>vault</code>. Because your repo already exists, under <strong>Repository access</strong> pick <strong>“Only select repositories” → your vault repo</strong> straight away (you skip the “All repositories” detour the fresh flow needs). Under <strong>Permissions → Repository permissions</strong>, set <strong>Contents</strong> to <strong>Read and write</strong> and leave everything else alone. Click <strong>Generate token</strong>, then <strong>copy it</strong> (it starts with <code>github_pat_</code>) — you'll paste it in the next step. GitHub won't show it again.</li>
+        <li><strong>Deploy from your repo:</strong> <a href="https://vercel.com/new" target="_blank" rel="noopener">vercel.com/new</a> → import your vault repo → set <strong>Root Directory</strong> to <code>vault-mcp</code> → add <strong>all the keys from Phase&nbsp;2's table</strong> (use the token from the previous step for <code>VAULT_GITHUB_TOKEN</code>; generate the three secrets as Phase&nbsp;2 describes; set <code>VAULT_OWNER</code> to your GitHub username and <code>VAULT_REPO</code> to your existing repo's name). <strong>If your repo's default branch isn't <code>main</code></strong> (e.g. it's <code>master</code>), also add <code>VAULT_BRANCH</code> with that branch name — otherwise every read/write hits the wrong branch and fails. → Deploy.</li>
+        <li>Then <strong>jump to Phase&nbsp;3</strong> to connect Claude &amp; ChatGPT — everything from there is identical.</li>
+      </ol>
+      <p>Your existing notes are never touched by this — you're only adding a connector alongside them.</p>
+    </details>
+
+    <!-- PHASE 0 -->
+    <section class="phase"><div class="phase-head"><span class="num">0</span><h2>Make two free accounts</h2></div>
+      <p class="sub">The only two accounts the setup itself needs. Both free, both just email + password.</p>
+      <div class="body">
+        <p>Your notes need a home (<strong>GitHub</strong>) and the little helper that connects your AI to them needs somewhere to run (<strong>Vercel</strong>). You'll never really “use” either one day-to-day — they just quietly hold and serve your notes.</p>
+        <h3 class="mini">GitHub — where your notes actually live</h3>
+        <ul><li>Go to github.com → <strong>Sign up</strong>. Use your normal email, pick a username (it can be anything), verify your email. Done.</li></ul>
+        <a class="btn ghost launch" href="https://github.com/signup" target="_blank" rel="noopener">Create GitHub account ↗</a>
+        <h3 class="mini">Vercel — runs the little connector, free</h3>
+        <ul><li>Go to vercel.com → <strong>Sign Up</strong> → choose <strong>“Continue with GitHub”</strong> (this links the two accounts so the next phase is one click).</li></ul>
+        <a class="btn ghost launch" href="https://vercel.com/signup" target="_blank" rel="noopener">Create Vercel account ↗</a>
+        <div class="callout"><span class="ic">💡</span><p>Signing into Vercel <em>with GitHub</em> matters — it's what makes the one-click deploy in the next phase actually one click.</p></div>
+      </div>
+    </section>
+
+    <!-- PHASE 1 -->
+    <section class="phase"><div class="phase-head"><span class="num">1</span><h2>Get your GitHub key</h2></div>
+      <p class="sub">One key the connector needs so it's allowed to write your notes. 2 minutes.</p>
+      <div class="body">
+        <p>This is a special password that lets the connector save notes into your vault — and <strong>only</strong> your vault, nothing else in your account.</p>
+        <ol>
+          <li>Open the token page (button below). If it asks, sign in.</li>
+          <li>Click <strong>Generate new token</strong> → <strong>fine-grained</strong>.</li>
+          <li>Name it <code>vault</code>.</li>
+        </ol>
+        <div class="callout warn"><span class="ic">🥚</span><p><strong>Repository access — pick “All repositories.” Not “Only select repositories.”</strong> This feels backwards, so read this once: your vault doesn't exist yet (the Phase&nbsp;2 button creates it next), and GitHub can't let you select a repo that isn't there yet — “Only select repositories” would show you an empty list with nothing to pick. So for this token, right now, choose <strong>“All repositories.”</strong> It's temporary: the instant your vault exists (right after Phase 2's button finishes its first screen), you'll come straight back here and narrow it to just that one repo — Phase 2 has its own reminder for that exact moment, so you won't forget.</p></div>
+        <ol start="4">
+          <li>Under <strong>Permissions → Repository permissions</strong>, find <strong>Contents</strong> and set it to <strong>Read and write</strong>. Leave everything else alone.</li>
+          <li><strong>Generate token</strong>, then <strong>copy it</strong> (it starts with <code>github_pat_</code>). Paste it somewhere safe for a minute — you'll need it in Phase 2. GitHub won't show it again.</li>
+        </ol>
+        <a class="btn ghost launch" href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">Open GitHub token page ↗</a>
+        <div class="callout"><span class="ic">🔒</span><p><strong>Why only “Contents” on one repo?</strong> So that even in the worst case, this key can touch your notes and <em>absolutely nothing else</em> — not your other repos, not your account settings. This is the whole answer to “is it safe to give AI access.” (The brief “All repositories” window above is the one exception, and it's closed the moment you complete the narrowing step in Phase 2.)</p></div>
+      </div>
+    </section>
+
+    <!-- PHASE 2 -->
+    <section class="phase"><div class="phase-head"><span class="num">2</span><h2>One button builds everything</h2></div>
+      <p class="sub">Creates your vault, puts the connector online, and asks for your keys — all in your browser.</p>
+      <div class="body">
+        <p>This single button copies the kit into your GitHub as your new vault, deploys the connector on Vercel for free, and shows you a short form for your keys.</p>
+        <p><a class="btn big" id="deployBtn" href="https://vercel.com/new/clone?repository-url=https://github.com/Chiibitsu-Labs/2nd-brain-kit&root-directory=vault-mcp&project-name=my-second-brain&repository-name=my-second-brain&env=VAULT_GITHUB_TOKEN,VAULT_MCP_TOKEN,OAUTH_SIGNING_SECRET,VAULT_OWNER_PASSPHRASE,VAULT_OWNER,VAULT_REPO" target="_blank" rel="noopener">🚀 Deploy my Second Brain ↗</a></p>
+        <p>The button's <strong>first screen</strong> asks you to name your new vault (e.g. <code>my-second-brain</code>) and creates it as a <strong>private</strong> home on your GitHub — that's your vault being born. Its <strong>second screen</strong> asks for the keys below.</p>
+        <div class="callout warn"><span class="ic">⛔</span><p><strong>Don't skip this — it's the difference between “safe” and “not.”</strong> The moment the button's first screen finishes, your vault repo exists. Go straight back to the Phase-1 token page → your <code>vault</code> key → <strong>Repository access → “Only select repositories” → pick your new vault → Save</strong>. Until you do, that token can read and write <em>every</em> repo in your account — the whole “one repo only” promise depends on this one step.</p></div>
+        <details><summary>Prefer to build it by hand? (or the button isn't working)</summary>
+          <p>The no-button path, still no coding:</p>
+          <ol>
+            <li>Create an empty home for your notes: <a href="https://github.com/new" target="_blank" rel="noopener"><strong>github.com/new</strong></a> → name it (e.g. <code>my-second-brain</code>) → choose <strong>Private</strong> → <strong>Create repository</strong>.</li>
+            <li>Get the kit: <a class="btn ghost" href="https://github.com/Chiibitsu-Labs/2nd-brain-kit/archive/refs/heads/main.zip">⬇ Download the kit (ZIP)</a> — that link downloads it straight away. Unzip it on your computer. (If it ever 404s, the fallback is <a href="https://github.com/Chiibitsu-Labs/2nd-brain-kit" target="_blank" rel="noopener">github.com/Chiibitsu-Labs/2nd-brain-kit</a> → the green <strong>Code</strong> button, top-right of the file list → <strong>Download ZIP</strong>.)</li>
+            <li>In your new repo: <strong>Add file → Upload files</strong> → drag the unzipped kit folders in → <strong>Commit changes</strong>. (GitHub's uploader keeps the folder structure.)</li>
+            <li>Deploy: <a href="https://vercel.com/new" target="_blank" rel="noopener"><strong>vercel.com/new</strong></a> → Import your repo → set <strong>Root Directory</strong> to <code>vault-mcp</code> → add the same keys from the table below → Deploy.</li>
+          </ol>
+        </details>
+        <p>When it asks for the keys, here's each one. <strong>Generate the three secret ones right here</strong> — they're made fresh in your browser and never sent anywhere. Copy each into the matching box on Vercel.</p>
+        <div class="field"><label>VAULT_MCP_TOKEN</label><div class="secretgen"><div class="out empty" id="s_mcp">click Generate →</div><button class="btn" data-gen="s_mcp" data-len="32">Generate</button></div></div>
+        <div class="field"><label>OAUTH_SIGNING_SECRET</label><div class="secretgen"><div class="out empty" id="s_sign">click Generate →</div><button class="btn" data-gen="s_sign" data-len="32">Generate</button></div></div>
+        <div class="field"><label>VAULT_OWNER_PASSPHRASE — the one you'll actually type later</label><div class="secretgen"><div class="out empty" id="s_pass">click Generate →</div><button class="btn" data-gen="s_pass" data-len="16">Generate</button></div></div>
+        <table class="env">
+          <tr><th>Box on Vercel</th><th>What to paste</th></tr>
+          <tr><td><code>VAULT_GITHUB_TOKEN</code></td><td>The <code>github_pat_…</code> key you made in Phase 1.</td></tr>
+          <tr><td><code>VAULT_MCP_TOKEN</code></td><td>The first generated value above.</td></tr>
+          <tr><td><code>OAUTH_SIGNING_SECRET</code></td><td>The second generated value above.</td></tr>
+          <tr><td><code>VAULT_OWNER_PASSPHRASE</code></td><td>The third. <strong>Save this in your password manager</strong> — it's what unlocks connecting an AI.</td></tr>
+          <tr><td><code>VAULT_OWNER</code></td><td>Your GitHub username.</td></tr>
+          <tr><td><code>VAULT_REPO</code></td><td><code>my-second-brain</code> (or whatever you named the repo in the button's form).</td></tr>
+        </table>
+        <p>Click <strong>Deploy</strong>. Wait a minute. When it says <strong>Ready</strong>, copy your web address — it looks like:</p>
+        <div class="cmd" id="endpoint">https://my-second-brain.vercel.app/api/mcp<button class="copy" data-copy="endpoint">Copy</button></div>
+        <div class="field full" style="margin-top:1rem"><label>Paste your real address here and the rest of this guide fills itself in:</label><input type="text" id="cfgUrl" placeholder="https://my-second-brain.vercel.app" spellcheck="false" autocomplete="off"></div>
+        <div class="callout key"><span class="ic">🔑</span><p>You now own a private vault <em>and</em> a running connector. The <strong>passphrase</strong> is the key to it — nobody can connect an AI to your notes without typing it, even if they find your web address.</p></div>
+      </div>
+    </section>
+
+    <!-- PHASE 3 -->
+    <section class="phase"><div class="phase-head"><span class="num">3</span><h2>Connect Claude</h2></div>
+      <p class="sub">Works on the website, the desktop app, and your phone — all from one setup.</p>
+      <div class="body">
+        <p>Go to Claude's <strong>Settings → Connectors → Add custom connector</strong>. Paste your address, leave the OAuth boxes empty, click <strong>Add</strong>. A little window pops up asking for your <strong>passphrase</strong> — type it. That's the whole thing.</p>
+        <div class="cmd" id="claudeUrl">https://my-second-brain.vercel.app/api/mcp<button class="copy" data-copy="claudeUrl">Copy</button></div>
+        <a class="btn ghost launch" href="https://claude.ai/new?modal=add-custom-connector#settings/customize-connectors" target="_blank" rel="noopener">Open Claude → Add custom connector ↗</a>
+        <p style="margin-top:1rem">Once it's connected on the website, it's connected on your <strong>phone and desktop app too</strong> — same account. Test it: ask Claude <em>“list the files in my vault root.”</em> If it names your folders, you're in.</p>
+        <details><summary>Using Claude Enterprise / Team? (admin note)</summary>
+          <p>Same steps, but your workspace <strong>Admin</strong> may need to allow custom connectors first — the switches live in the <a href="https://claude.ai/settings/admin" target="_blank" rel="noopener">admin console</a>. Anthropic's own <a href="https://claude.com/resources/tutorials/using-the-github-integration" target="_blank" rel="noopener">admin tutorial on the GitHub integration</a> is the piece to hand them. If your admin asks “why does this connect to GitHub?”, point them to <a href="#it-cto"><strong>“For your IT / CTO”</strong></a> below — short version: it doesn't touch your company's code, it's a private notes store that happens to use one locked-down GitHub repo as its filing cabinet. For a <em>shared team brain</em>, see the <a href="#teams">Companies &amp; teams</a> section.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- PHASE 4 -->
+    <section class="phase"><div class="phase-head"><span class="num">4</span><h2>Connect ChatGPT</h2></div>
+      <p class="sub">Same connector, second AI. Works on any paid plan — what it can <em>do</em> depends on the plan.</p>
+      <div class="body">
+        <p>ChatGPT calls these <strong>Plugins</strong> now (they used to be “connectors”). Two steps: switch on <em>Developer mode</em> once, then add your plugin.</p>
+        <div class="callout warn"><span class="ic">⚖️</span><p><strong>Plan matters here, read before you connect:</strong> on <strong>Plus or Pro</strong> (personal accounts), Developer mode is available and you can add this plugin yourself — but OpenAI restricts personal-plan custom apps to <strong>read-only</strong>: ChatGPT can read and search your notes, but can't save new ones (the improve skill needs to write, so it won't work here). Full read+write needs a <strong>Business, Enterprise, or Edu</strong> workspace. If you're on Plus/Pro, it's still worth connecting for the read side — just know saving-via-ChatGPT won't work until you're on a workspace plan.</p></div>
+        <ol>
+          <li><strong>Switch on Developer mode:</strong> open ChatGPT's <strong>Settings → Security and login</strong> → find <strong>Developer mode</strong> → toggle it on. It's labeled <em>“elevated risk”</em> — that's OpenAI's standard warning for any plugin they haven't reviewed themselves. Yours is the one you just built, so you know exactly what it does.</li>
+          <li><strong>Add the plugin:</strong> go to the <strong>Plugins</strong> page → <strong>Settings → Plugins → Developer mode</strong> (or the <strong>＋</strong> button) → <strong>Create</strong>. Paste your address, set Authentication to <strong>OAuth</strong>, save. Same passphrase window as Claude.</li>
+        </ol>
+        <div class="cmd" id="gptUrl">https://my-second-brain.vercel.app/api/mcp<button class="copy" data-copy="gptUrl">Copy</button></div>
+        <a class="btn ghost launch" href="https://chatgpt.com/plugins#settings/Security" target="_blank" rel="noopener">Open Developer mode toggle ↗</a>
+        <a class="btn ghost launch" href="https://chatgpt.com/plugins" target="_blank" rel="noopener">Open ChatGPT Plugins ↗</a>
+        <div class="callout warn"><span class="ic">🧭</span><p><strong>Menu moved?</strong> OpenAI keeps renaming this area (Plugins ↔ Apps). If you don't see it where described, the same toggle also lives under <strong>Settings → Apps → Advanced Settings</strong> (or Workspace Settings → Permissions), and custom apps are created from <strong>Apps → Create</strong>. Look for “Developer mode” and “custom / MCP app” — whatever the surrounding menu is called.</p></div>
+        <p>Test the same way: <em>“list the files in my vault root.”</em> (If the plugin's page says “No app actions available yet,” just run that test once — it wakes up on first use.)</p>
+        <details><summary>“Developer mode” sounds scary / my admin has to do it</summary>
+          <p>On ChatGPT Business, adding a custom plugin lives behind <strong>Developer mode</strong>, and only a workspace <strong>Admin</strong> can switch it on. It's just the name of the toggle — you're not writing code. If you're the owner of a small Business workspace, that admin is you. Enterprise: your IT admin flips it on once — and can hand any “why GitHub?” questions to <a href="#it-cto">“For your IT / CTO”</a> below.</p>
+        </details>
+        <div class="callout"><span class="ic">🔁</span><p>Both AIs now read and write the <strong>same</strong> vault. A note Claude writes, ChatGPT sees, and vice-versa. One memory, two assistants.</p></div>
+      </div>
+    </section>
+
+    <!-- PHASE 5 -->
+    <section class="phase"><div class="phase-head"><span class="num">5</span><h2>Turn on the memory</h2></div>
+      <p class="sub">The part that makes your AI stop forgetting you.</p>
+      <div class="body">
+        <p>Your vault already came with an <strong>“improve” skill</strong>. It's the thing that, at the end of a work session, jots down what your AI learned about you — how you like things, decisions you made, mistakes to not repeat — and reads it back next time.</p>
+        <h3 class="mini">On Claude &amp; ChatGPT (website / app)</h3>
+        <p>Both now have a <strong>Skills</strong> feature — you're adding one so the AI knows to save lessons when you ask it to. Easiest way, now that your connector's already hooked up: open a chat with Claude or ChatGPT and say <em>"read .claude/skills/improve/SKILL.md from my vault and show me the whole file, ready to paste."</em> It'll fetch the exact text for you — no digging through GitHub. Then: <strong>Settings → Skills → Add a skill</strong>, name it <code>improve</code>, paste in what it gave you, save. From then on, ask it to <em>“save what we learned”</em> and it reads past notes at the start of a chat, too.</p>
+        <div class="callout warn"><span class="ic">🪄</span><p><strong>Honest note:</strong> on the websites/apps, the memory runs when the AI decides it's relevant or when you nudge it — a strong habit, not a guarantee. Claude Code (below) upgrades the <em>loading</em> half to genuinely automatic — every session starts with your history already read in, no prompting needed. The <em>saving</em> half is still a nudge there too, just a more insistent one (it asks itself at the end of every session, rather than waiting for you to remember) — not a guarantee that a note gets written.</p></div>
+        <details><summary>Want session-start loading to be fully automatic? (10 min, Claude Code)</summary>
+          <p><strong>Claude Code</strong> is Anthropic's free tool that runs in your computer's Terminal. Your vault ships with the automation already written (a <code>.claude/</code> folder with the hooks + the improve skill) — once one small helper is installed, you just run Claude Code <em>from your vault folder</em> and the "load past notes" half is fully automatic: every session starts with your history already read in, no action needed. The "capture new lessons" half is a nudge, not a guarantee — at the end of a session it asks the AI "was there anything worth saving?" and the AI decides; if nothing stood out (or it's missed), no note gets written that session, and that's fine — it's not silently failing, there was just nothing to capture.</p>
+          <ol>
+            <li>Do the Phase&nbsp;6 step first so your vault is a folder on your computer.</li>
+            <li>Install Claude Code (free): <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">claude.com/product/claude-code</a> — follow its installer for <span class="os">Mac</span> or <span class="os">Windows</span>.</li>
+            <li><strong>Install <code>jq</code></strong>, the tiny helper the memory hooks use to read Claude Code's messages (it isn't preinstalled). <span class="os">Mac</span>: run <code>brew install jq</code> (no Homebrew yet? <a href="https://brew.sh" target="_blank" rel="noopener">brew.sh</a> is one paste). <span class="os">Windows</span>: run <code>winget install jqlang.jq</code>. If you skip this nothing breaks — the hooks notice <code>jq</code> is missing and stay quiet, so Claude Code still works, just without the automatic capture.</li>
+            <li><span class="os">Windows only</span>: the hook scripts also need a Bash shell, which plain PowerShell doesn't have. Install <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a> (free) — this is a separate download from GitHub Desktop, which doesn't include it. It adds a <strong>Git Bash</strong> option to your Start menu; use that instead of PowerShell for the next step.</li>
+            <li>Open <strong>Terminal</strong> <span class="os">Mac</span> / <strong>Git Bash</strong> <span class="os">Windows</span>, go to your vault folder, and start it:</li>
+          </ol>
+          <div class="cmd">cd path/to/your-vault
+claude</div>
+          <p>That's it — from now on, any conversation you have in that folder remembers you automatically. (Not doing this is totally fine; the website/app memory above still works, just with a nudge instead of on its own.) Chiibitsu Labs can screen-share this with you if the Terminal part feels unfamiliar.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- PHASE 6 -->
+    <section class="phase"><div class="phase-head"><span class="num">6</span><h2>Read &amp; write notes yourself (optional)</h2></div>
+      <p class="sub">If you want to open your notes directly, not only through the AI.</p>
+      <div class="body">
+        <p>You don't have to — the AI can manage everything, and you can always read notes on github.com. But most people like a real notes app. That app is <strong>Obsidian</strong> (free), and it opens the exact same notes.</p>
+        <h3 class="mini"><span class="os">Mac</span><span class="os">Windows</span> One-time setup (10 min)</h3>
+        <ol>
+          <li>Install <strong>Obsidian</strong> (free) and <strong>GitHub Desktop</strong> (free — you'll only open it once).</li>
+          <li>In GitHub Desktop: sign in → <strong>Clone</strong> your <code>my-second-brain</code> repo to your computer.</li>
+          <li>Open that folder in Obsidian as a vault. You're now looking at your real notes.</li>
+        </ol>
+        <h3 class="mini">Then make saving automatic — the Git plugin</h3>
+        <ol>
+          <li>In Obsidian: <strong>Settings → Community plugins → Turn on community plugins → Browse</strong> → search <strong>“Git”</strong> → <strong>Install</strong> → <strong>Enable</strong>.</li>
+          <li>In the plugin's options, set <strong>“Vault backup interval”</strong> to e.g. <code>10</code> minutes.</li>
+          <li>That's it. Your edits now save to your vault automatically — and any time you want to push right now, open the command palette (<code>Ctrl/Cmd+P</code>) → <strong>“Git: Commit-and-sync.”</strong> Buttons, not commands. You never need GitHub Desktop again after day one.</li>
+        </ol>
+        <h3 class="mini"><span class="os">iPhone</span> Notes on your phone — two good options</h3>
+        <ul>
+          <li><strong>Obsidian Sync</strong> (official, ≈$4/month) — the easy button. Your phone and computer stay perfectly in sync with zero fiddling; the Git plugin on your computer handles saving to the vault. Best if you use your computer regularly.</li>
+          <li><strong>Working Copy</strong> (iPhone app, one-time ≈$20) — your phone talks straight to your vault, no computer needed. A bit more setup; best if you're phone-first. Chiibitsu Labs will set either one up with you.</li>
+        </ul>
+        <a class="btn ghost launch" href="https://obsidian.md/download" target="_blank" rel="noopener">Get Obsidian ↗</a>
+        <a class="btn ghost launch" href="https://desktop.github.com/" target="_blank" rel="noopener">Get GitHub Desktop ↗</a>
+        <a class="btn ghost launch" href="https://obsidian.md/sync" target="_blank" rel="noopener">Obsidian Sync ↗</a>
+      </div>
+    </section>
+
+    <!-- PHASE 7 -->
+    <section class="phase"><div class="phase-head"><span class="num">7</span><h2>NotebookLM &amp; Gemini (optional)</h2></div>
+      <p class="sub">Google's tools can read your notes for research — with one important difference.</p>
+      <div class="body">
+        <p><strong>The key difference:</strong> Claude and ChatGPT <em>read and write</em> your vault live. Google's consumer tools mostly <em>read</em> a copy — great for research and “podcast about my notes,” not for saving new notes back.</p>
+        <h3 class="mini">NotebookLM — research over your notes</h3>
+        <p>The concrete path (needs the Phase-6 setup — your vault as a folder on your computer):</p>
+        <ol>
+          <li>Install <strong>Google Drive for desktop</strong> and sign in with your Google account.</li>
+          <li>In its settings: <strong>Preferences → My Computer → Add folder</strong> → choose your vault folder. From now on, every note automatically mirrors into Drive whenever it changes — nothing to remember.</li>
+          <li>In <strong>NotebookLM</strong>: New notebook → <strong>Add sources → Google Drive</strong> → pick your notes (plain notes and markdown are supported).</li>
+          <li>Ask questions across everything, generate summaries, even audio overviews — all read-only.</li>
+        </ol>
+        <div class="callout warn"><span class="ic">🔄</span><p><strong>One honest caveat:</strong> NotebookLM auto-refreshes native Google Docs, but plain note files it treats as snapshots — when you want it caught up on recent notes, re-sync or re-add those sources (a minute of clicking). If this becomes a daily tool, Chiibitsu Labs can build a small scheduled job (a GitHub Action that converts your changed notes into Google Docs on a timer) so NotebookLM's native auto-refresh picks them up without the manual re-add — a custom build, not something in the base kit; ask if you want it.</p></div>
+        <a class="btn ghost launch" href="https://www.google.com/drive/download/" target="_blank" rel="noopener">Get Drive for desktop ↗</a>
+        <a class="btn ghost launch" href="https://notebooklm.google.com" target="_blank" rel="noopener">Open NotebookLM ↗</a>
+        <h3 class="mini">Gemini</h3>
+        <details><summary>Everyday Gemini app</summary>
+          <p>The normal Gemini app <strong>can't</strong> connect to a custom notes vault today — Google doesn't offer custom connectors in the consumer app. Use the NotebookLM/Drive route above for reading your notes with Google's AI.</p>
+        </details>
+        <details><summary>Gemini Enterprise (if your company has it)</summary>
+          <p>Gemini Enterprise (on Google Cloud) <em>does</em> support a live custom connector — the same connector you already deployed. An admin adds it in the Google Cloud console under <strong>Data Stores → Custom MCP Server</strong>, pointing at your address, authenticated via a Google Cloud service account. This gives Gemini Enterprise live read access like Claude/ChatGPT. It's an admin/IT task, not a click-through — flag it to whoever manages your Google Cloud.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- TEAMS / ENTERPRISE -->
+    <section class="phase" id="teams"><div class="phase-head"><span class="num">8</span><h2>Companies &amp; teams — one shared brain</h2></div>
+      <p class="sub">Everything above was “one person, one vault.” The same kit also runs a shared knowledge base for a whole team.</p>
+      <div class="body">
+        <p>Three things change, and only three:</p>
+        <ul>
+          <li><strong>The vault lives in the company's GitHub organization</strong> instead of a personal account — same private repo, just owned by the org (create it under the org at github.com/new).</li>
+          <li><strong>One person deploys once.</strong> One connector, one address, one set of keys — held by whoever administers it, not by every member. <strong>Use a paid Vercel plan for this deploy</strong> (Pro or Team) — Hobby's terms restrict it to personal, non-commercial use, and a company vault doesn't qualify.</li>
+          <li><strong>The workspace admin connects it for everyone.</strong>
+            <ul>
+              <li><em>Claude Team / Enterprise:</em> the admin enables and manages connectors from the <a href="https://claude.ai/settings/admin" target="_blank" rel="noopener">admin console</a>; Anthropic's <a href="https://claude.com/resources/tutorials/using-the-github-integration" target="_blank" rel="noopener">admin tutorial</a> covers the GitHub side.</li>
+              <li><em>ChatGPT Business / Enterprise:</em> the admin switches on Developer mode and creates the plugin once (Phase 4) — it's then available to the workspace.</li>
+            </ul>
+          </li>
+        </ul>
+        <p><strong>The passphrase stays with the admin.</strong> Members never need it — the admin types it once when connecting the workspace. That's your access control: leaving employees can't reconnect anything, and the admin can log every AI out instantly by rotating one key.</p>
+        <p><strong>Keep it tidy from day one:</strong> the one-click button builds a single-person layout — for a team vault, set up a <code>people/ana/…</code> folder per person plus one shared <code>canon/</code> folder for team-wide truth before anyone starts using it, and customize the improve skill (it ships with a marked "Customize me" section) to file each person's lessons under their own folder. This isn't pre-built by the button; Chiibitsu Labs sets it up live during team onboarding, or ask your connected AI to scaffold the folders and update the skill for you.</p>
+        <div class="callout"><span class="ic">🏢</span><p>Rolling this out across multiple teams, mixing private + shared vaults, or wiring it into <strong>Gemini Enterprise</strong>? That's a design conversation, not a checklist — <a href="mailto:labs@chiibitsu.com">labs@chiibitsu.com</a>.</p></div>
+      </div>
+    </section>
+
+    <!-- IT / CTO -->
+    <section class="phase" id="it-cto"><div class="phase-head"><span class="num">♦</span><h2>For your IT / CTO</h2></div>
+      <p class="sub">The “why does this touch GitHub?” question, answered directly.</p>
+      <div class="body">
+        <p><strong>This is not a GitHub source-code integration.</strong> Nobody is giving an AI access to your company's repositories. Here's what's actually happening:</p>
+        <ul>
+          <li>The user's personal notes are stored as plain text files. We use <strong>one private GitHub repository</strong> as the storage for those files — GitHub is acting purely as a filing cabinet, not as a code platform.</li>
+          <li>The AI never talks to GitHub directly. It talks to a small, single-purpose connector (running on the user's own Vercel account) that can do exactly three things: read a note, write a note, list notes — in <strong>that one repository only</strong>.</li>
+          <li>The credential involved is a <strong>fine-grained token scoped to that single repo, with “Contents” permission and nothing else</strong>. It cannot read other repositories, cannot see organization settings, cannot touch code.</li>
+          <li>Connecting an AI requires a <strong>human-held passphrase</strong>; AIs receive a <strong>30-day expiring token</strong>, never a permanent master credential.</li>
+        </ul>
+        <div class="callout"><span class="ic">🛡️</span><p><strong>Blast-radius summary for a review:</strong> worst case if the connector or its token fully leaked is exposure of <em>one user's personal notes repo</em> — no code, no other repos, no org access. Every off-switch (revoke token, rotate signing secret, delete the Vercel project) is in the user's hands.</p></div>
+        <p style="font-size:.86rem;color:var(--muted)"><strong>Data-flow honesty:</strong> when the AI reads a note, that note's text passes through Anthropic or OpenAI (or Google, for the Gemini/NotebookLM options) — identical to a user pasting the note into a chat. The integration changes how conveniently notes move, not which AI providers process them. Evaluate it under the same policy you'd apply to staff using these AI tools at all.</p>
+        <p style="font-size:.86rem;color:var(--muted)"><strong>Training data, specifically:</strong> on <strong>Claude Team/Enterprise</strong> and <strong>ChatGPT Team/Business/Enterprise/Edu</strong> — the workspace tiers this section is written for — neither Anthropic nor OpenAI use your prompts or outputs to train models, by default, with no toggle needed; it's a contractual term of those plans. Personal accounts are a different story: Claude Free/Pro/Max and ChatGPT Free/Plus/Pro default to training-eligible, and you have to turn it off yourself (Claude: Settings → Privacy; ChatGPT: Settings → Data controls → “Improve the model for everyone”). Two caveats even after opting out: Anthropic can still use a conversation it flags for safety review regardless of your setting, and on ChatGPT a thumbs-up/down vote on a specific reply authorizes that chat for training even with the toggle off. If anyone on the team is connecting from a personal account rather than the workspace, that's the setting to check.</p>
+      </div>
+    </section>
+
+    <!-- SAFETY -->
+    <section class="phase"><div class="phase-head"><span class="num">♦</span><h2>What keeps it safe</h2></div>
+      <div class="body">
+        <div class="sec-grid">
+          <div class="sec-card"><h3>It's yours, end to end</h3><p>Notes in your private GitHub repo, connector on your free Vercel account. No middleman service.</p></div>
+          <div class="sec-card"><h3>A human approves each connection</h3><p>The passphrase means “anyone with the link” never equals “anyone with access.”</p></div>
+          <div class="sec-card"><h3>AI gets a temporary key</h3><p>Claude/ChatGPT receive a 30-day key that expires — never your master key.</p></div>
+          <div class="sec-card"><h3>Small blast radius</h3><p>The GitHub token can touch only this one notes repo. You hold every off-switch.</p></div>
+          <div class="sec-card"><h3>The AI can't delete a file</h3><p>The connector can only read, list, and write — there's no delete tool, so a file can never be removed from the repo. Writing can still overwrite a file's content, though; if that happens, recover it from the version history in the next card.</p></div>
+          <div class="sec-card"><h3>Every change is undoable</h3><p>Each write is a saved version in GitHub. A bad edit is a one-click roll-back with the full before/after.</p></div>
+        </div>
+        <div class="callout"><span class="ic">💾</span><p><strong>Backups, if you want belt-and-suspenders:</strong> your vault ships with two optional auto-backups (see <code>BACKUP.md</code>) — weekly dated restore points (on by default) and an off-GitHub mirror to a second host (opt-in). Plus, git history alone already lets you restore any note to any past version.</p></div>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="phase"><div class="phase-head"><span class="num">?</span><h2>If something's stuck</h2></div>
+      <div class="body">
+        <details><summary>The deploy failed right away</summary><p>Almost always the “Root Directory” wasn't set to <code>vault-mcp</code>. In the Vercel project → Settings → General → Root Directory → set it to <code>vault-mcp</code> → redeploy.</p></details>
+        <details><summary>Vercel is asking me about plans/pricing</summary><p>For a personal, one-person vault: choose the <strong>Hobby</strong> (free) option — this kit fits comfortably in the free tier, no card needed. <strong>Hobby is for personal, non-commercial use only</strong> — if this vault is for a company or team (see <a href="#teams">Companies &amp; teams</a>), use a paid <strong>Pro</strong> or <strong>Team</strong> plan instead; Vercel's terms don't permit business use on Hobby.</p></details>
+        <details><summary>Connecting the AI shows a “Server not configured” / 503 message</summary><p>The running deployment can't see <code>VAULT_OWNER_PASSPHRASE</code> or <code>OAUTH_SIGNING_SECRET</code> (the message names both even if only one is missing). In Vercel → Settings → Environment Variables, open each one and check: exact spelling, the <strong>Production</strong> checkbox is ticked, the value has no <code>NAME=</code> prefix or quotes, and the signing secret is the long value (32+ characters). Then <strong>redeploy the deployment labeled “Production”</strong> — not the newest one in the list, which may be a preview.</p></details>
+        <details><summary>I set the keys and redeployed, but nothing changed</summary><p>You probably redeployed a <em>preview</em>. In the Deployments tab, previews from branches sit above production. Find the one tagged <strong>Production</strong> → ⋯ → Redeploy. Keys apply only to deploys made <em>after</em> they were saved, per environment.</p></details>
+        <details><summary>The deploy button says the repository name is taken</summary><p>You (or the button, earlier) already created it. Either pick a new name — and remember <code>VAULT_REPO</code> must match it — or delete the half-made repo on GitHub and run the button again.</p></details>
+        <details><summary>GitHub is forcing me to set up 2FA</summary><p>That's GitHub's normal account security, not part of this setup. Use your phone's authenticator app; it takes two minutes and protects your vault too.</p></details>
+        <details><summary>There's no box to paste a password/token in Claude or ChatGPT</summary><p>That's correct — those apps only offer OAuth. Paste just the web address, leave the OAuth fields empty, and the passphrase window appears after you click Add/Create.</p></details>
+        <details><summary>The AI says it can't find my files</summary><p>Check <code>VAULT_OWNER</code> (your GitHub username) and <code>VAULT_REPO</code> (your repo name) are set correctly in Vercel, and that your <code>VAULT_GITHUB_TOKEN</code> has that repo selected with Contents: Read and write. Fix, redeploy.</p></details>
+        <details><summary>Claude added the connector but doesn't seem to use it</summary><p>Start a fresh chat, and check the tools menu (the ⚙/plug icon near the message box) shows your connector switched on for that chat. Then ask the test question again.</p></details>
+        <details><summary>ChatGPT's plugin page says “No app actions available yet”</summary><p>Normal before first use — open a chat and ask <em>“list the files in my vault root.”</em> It wakes on the first real call (or hit Refresh on that page).</p></details>
+        <details><summary>I can't find Developer mode in ChatGPT</summary><p>On <strong>Business/Enterprise/Edu</strong> workspaces, only an <strong>Admin</strong> can switch it on. On a <strong>personal Plus/Pro</strong> account you can switch it on yourself — it's just limited to read-only there (see Phase 4), so if you can't find the toggle at all, double-check you're on Plus or higher; the free tier has no Developer mode.</p></details>
+        <details><summary>I forgot my passphrase</summary><p>No reset needed — set a <em>new</em> value for <code>VAULT_OWNER_PASSPHRASE</code> in Vercel, redeploy Production, and use the new one from then on. Already-connected AIs keep working; only new connections ask for it.</p></details>
+        <details><summary>The AI suddenly says “Unauthorized” after weeks of working</summary><p>The AI's 30-day key expired — that's by design. Reconnect (Claude: the connector's menu → reconnect; ChatGPT: the plugin's page → reconnect), type the passphrase, done.</p></details>
+        <details><summary>Notes I write on my phone aren't showing up</summary><p>Phone sync is its own step — see Phase 6's iPhone options (Obsidian Sync or Working Copy). Until then, notes written <em>by the AI</em> from your phone do land in the vault — it's only Obsidian-on-phone edits that need the sync step.</p></details>
+        <details><summary>The first reply after a quiet day is slow</summary><p>Free-tier servers nap when idle and wake in a second or two. The first call warms it up; everything after is fast. Nothing is wrong.</p></details>
+        <details><summary>I want automatic memory in Claude Code (advanced)</summary><p>See the “Want it fully automatic?” steps inside <strong>Phase 5</strong> — install Claude Code (free), install the small <code>jq</code> helper, then run it from your vault folder. Loading past notes at session start is fully automatic; saving new ones is a nudge the AI acts on, not a guarantee (it asks itself "anything worth saving?" at the end of each session). The automation is already written into your vault; the only thing to add is <code>jq</code> (Phase&nbsp;5 has the one-line command), and if it's missing the memory just stays quiet rather than erroring. Chiibitsu Labs can screen-share the Terminal part with you.</p></details>
+        <details><summary>I accidentally made the vault repo public</summary><p>GitHub → your repo → Settings → scroll to Danger Zone → <strong>Change visibility → Private</strong>. Do it promptly and you're fine.</p></details>
+        <details><summary>How do I turn the whole thing off?</summary><p>Three off-switches, any one works: remove the connector/plugin in the AI's settings (stops that AI), delete the Vercel project (stops all AI access), or revoke the GitHub token (stops everything at the source). Your notes stay safe in the repo through all of them — and you can download the whole vault anytime via GitHub → Code → Download ZIP.</p></details>
+        <details><summary>Something else is stuck</summary><p>Email <a href="mailto:labs@chiibitsu.com">labs@chiibitsu.com</a> with a screenshot — that's what it's for.</p></details>
+        <details><summary>Want this running across your whole team?</summary><p>Everything above is the one-person version. Chiibitsu Labs sets up the shared-vault pattern (<a href="#teams">per-person + canon folders</a>), workspace admin rollout, and can build custom automations like the NotebookLM auto-refresh — reach out at <a href="mailto:labs@chiibitsu.com">labs@chiibitsu.com</a> and we'll do it live with your team.</p></details>
+      </div>
+    </section>
+
+    <!-- LAST-UPDATED: bump this date every time this file's content changes -->
+    <footer><p><strong>Chiibitsu Labs</strong> — Second Brain Kit. Your notes, your keys, your memory.<br>
+    <a href="https://chiibitsu.com" target="_blank" rel="noopener">chiibitsu.com</a> · <a href="mailto:labs@chiibitsu.com">labs@chiibitsu.com</a><br>
+    <span style="font-size:.78rem">Guide last updated: 2026-07-16</span></p></footer>
+  </main>
+
+  <div class="toast" id="toast">Copied</div>
+  <script>
+    let toastT;
+    function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1400);}
+    // Fall back to execCommand('copy') if the async Clipboard API is
+    // missing or its permission is denied (e.g. inside a sandboxed iframe) —
+    // otherwise a rejected clipboard.writeText() promise fails silently.
+    function legacyCopy(text){
+      const ta=document.createElement('textarea');
+      ta.value=text;ta.style.position='fixed';ta.style.opacity='0';ta.style.left='-9999px';
+      document.body.appendChild(ta);ta.focus();ta.select();
+      let ok=false;
+      try{ok=document.execCommand('copy');}catch(err){ok=false;}
+      document.body.removeChild(ta);
+      return ok;
+    }
+    function copyText(text){
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(()=>toast('Copied')).catch(()=>{
+          toast(legacyCopy(text)?'Copied':'Couldn\'t copy — select the text and copy manually');
+        });
+      }else{
+        toast(legacyCopy(text)?'Copied':'Couldn\'t copy — select the text and copy manually');
+      }
+    }
+    document.addEventListener('click',e=>{const c=e.target.closest('[data-copy]');if(!c)return;const el=document.getElementById(c.getAttribute('data-copy'));const t=el.cloneNode(true);t.querySelectorAll('button').forEach(b=>b.remove());copyText(t.textContent.trim());});
+    function randHex(n){const a=new Uint8Array(n);crypto.getRandomValues(a);return[...a].map(x=>x.toString(16).padStart(2,'0')).join('');}
+    document.querySelectorAll('[data-gen]').forEach(b=>b.addEventListener('click',()=>{const o=document.getElementById(b.getAttribute('data-gen'));o.textContent=randHex(parseInt(b.getAttribute('data-len'),10));o.classList.remove('empty');}));
+    const $=id=>document.getElementById(id);
+    function refresh(){
+      let v=$('cfgUrl').value.trim().replace(/\/+$/,'');
+      const base=v||'https://my-second-brain.vercel.app';
+      const url=base+'/api/mcp';
+      ['endpoint','claudeUrl','gptUrl'].forEach(id=>{const el=$(id);if(el)el.childNodes[0].nodeValue=url;});
+    }
+    $('cfgUrl').addEventListener('input',refresh);
+    const bar=document.getElementById('progressBar');
+    document.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?(window.scrollY/h)*100:0)+'%';},{passive:true});
+  </script>
+</body>
+</html>

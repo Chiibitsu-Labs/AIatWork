@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chiibitsu Labs — Second Brain Kit</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#16101F;--paper-2:#0D0815;--card:#221934;--ink:#F5EFE4;
+    --muted:#8F81A6;--line:rgba(181,166,100,.28);--accent:#5B3495;--accent-ink:#B79EE8;--danger:#E08677;
+    --serif:'Playfair Display','Iowan Old Style',Georgia,'Times New Roman',serif;
+    --sans:'Inter',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:light){:root{
+    --paper:#F7F3E9;--paper-2:#FFFCF6;--card:#FFFCF6;--ink:#2B2330;
+    --muted:#695F6D;--line:rgba(181,166,100,.38);--accent:#4E2A84;--accent-ink:#3D2068;--danger:#B23A34;
+  }}
+  :root[data-theme="light"]{--paper:#F7F3E9;--paper-2:#FFFCF6;--card:#FFFCF6;--ink:#2B2330;--muted:#695F6D;--line:rgba(181,166,100,.38);--accent:#4E2A84;--accent-ink:#3D2068;--danger:#B23A34;}
+  :root[data-theme="dark"]{--paper:#16101F;--paper-2:#0D0815;--card:#221934;--ink:#F5EFE4;--muted:#8F81A6;--line:rgba(181,166,100,.28);--accent:#5B3495;--accent-ink:#B79EE8;--danger:#E08677;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;
+    background:radial-gradient(120% 120% at 50% 0%,var(--paper-2),var(--paper));
+    font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .card{width:100%;max-width:25rem;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:2rem;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 34px rgba(0,0,0,.08)}
+  .seed{font-size:2rem;line-height:1}
+  h1{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:.75rem 0 .25rem;color:var(--accent-ink)}
+  p{color:var(--muted);font-size:.9rem;margin:0 0 1.25rem}
+  .notice{color:var(--muted);font-size:.82rem;margin:-.75rem 0 1.25rem}
+  form{display:flex;gap:.5rem}
+  input[type=password]{width:100%;padding:.7rem .8rem;border:1px solid var(--line);border-radius:10px;
+    background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1rem}
+  input:focus-visible,.btn:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+  .btn{border:0;border-radius:4px;padding:.7rem 1.1rem;cursor:pointer;font-family:var(--sans);
+    font-weight:700;font-size:.95rem;background:var(--accent);color:#F5EFE4;white-space:nowrap}
+  .btn:hover{background:#7448BE}
+  .btn:disabled{opacity:.6;cursor:default}
+  .err{color:var(--danger);font-size:.85rem;min-height:1.2em;margin-top:.6rem}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="seed">🌱</div>
+    <h1>Chiibitsu Labs</h1>
+    <p>Second Brain Kit — enter your access key to continue.</p>
+    <p class="notice" id="notice" hidden>Your previous session expired, or you haven't unlocked this yet.</p>
+    <form id="form">
+      <input type="password" id="key" placeholder="Access key" autocomplete="off" aria-label="Access key" autofocus>
+      <button class="btn" id="submit" type="submit">Enter</button>
+    </form>
+    <div class="err" id="err" role="alert"></div>
+  </div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    if (params.get('locked')) document.getElementById('notice').hidden = false;
+
+    function safeNext(raw) {
+      if (typeof raw !== 'string' || !raw.startsWith('/') || raw.startsWith('//')) return '/2nd-brain-kit';
+      return raw;
+    }
+    const next = safeNext(params.get('next'));
+
+    const form = document.getElementById('form');
+    const keyInput = document.getElementById('key');
+    const submitBtn = document.getElementById('submit');
+    const err = document.getElementById('err');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Checking…';
+      try {
+        const res = await fetch('/api/2nd-brain-kit-unlock', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ key: keyInput.value }),
+        });
+        if (res.ok) {
+          location.href = next;
+        } else if (res.status === 401) {
+          err.textContent = "That key isn't right — check with Chiibitsu Labs.";
+        } else if (res.status === 503) {
+          err.textContent = "Setup site isn't configured yet. (Admin: set SETUP_ACCESS_KEYS and SETUP_COOKIE_SECRET.)";
+        } else {
+          err.textContent = 'Something went wrong. Try again.';
+        }
+      } catch {
+        err.textContent = 'Network error. Try again.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enter';
+      }
+    });
+  </script>
+</body>
+</html>
