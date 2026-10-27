@@ -292,6 +292,20 @@
       <div class="row"><a class="btn big" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Open my tokens ↗</a><button class="btn ghost" data-next>Locked →</button></div>
     </section>
 
+    <!-- UPDATES: let the weekly kit-update PR through -->
+    <section class="screen" data-id="updates">
+      <div class="kicker">Get free updates</div>
+      <h1>Let your vault receive security updates.</h1>
+      <p class="lede">Once a week your vault checks for kit fixes and sends them to you as a pull request. GitHub blocks this until you tick one box.</p>
+      <ol class="steps">
+        <li>Open your vault repo on GitHub → <strong>Settings</strong>.</li>
+        <li><strong>Actions</strong> → <strong>General</strong> → scroll to <strong>Workflow permissions</strong>.</li>
+        <li>Tick <strong>“Allow GitHub Actions to create and approve pull requests”</strong> → <strong>Save</strong>.</li>
+      </ol>
+      <div class="row"><a class="btn big" href="https://github.com/" target="_blank" rel="noopener">Open GitHub ↗</a><button class="btn ghost" data-next>Ticked →</button></div>
+      <p class="enter-hint" style="display:block;margin-top:1rem">When a “Kit update” pull request shows up, open it and click <strong>Merge</strong>. It never touches your notes.</p>
+    </section>
+
     <!-- ADDRESS -->
     <section class="screen" data-id="address">
       <div class="kicker">Your connector’s address</div>
@@ -492,6 +506,7 @@ claude</div>
     <p>Your vault makes a weekly restore point on its own, and can mirror to a second host (GitLab, Codeberg) if you add one setting. See <code>BACKUP.md</code> in your vault.</p>
     <h3>Updates</h3>
     <p>Once a week your vault checks for kit updates (security fixes, skill improvements) and opens a pull request in your repo. It never touches your notes. Review it and click <strong>Merge</strong>.</p>
+    <p>No “Kit update” pull requests ever? Repo → Settings → Actions → General → Workflow permissions → tick <strong>“Allow GitHub Actions to create and approve pull requests”</strong> → Save. Then Actions → <strong>Vault template sync</strong> → <strong>Run workflow</strong>.</p>
   </div></div>
 
   <div class="panel" id="p-teams"><div class="panel-inner">
@@ -542,7 +557,7 @@ claude</div>
       ['ex-copy',()=>!fresh()],['ex-publish',()=>!fresh()],['ex-token',()=>!fresh()],
       ['secrets'],
       ['deploy',fresh],['ex-deploy',()=>!fresh()],['lock',fresh],
-      ['address'],['claude',usesClaude],['chatgpt',usesGPT],['test'],['memory'],['done']
+      ['updates'],['address'],['claude',usesClaude],['chatgpt',usesGPT],['test'],['memory'],['done']
     ];
     const flow=()=>FLOW.filter(([,ok])=>!ok||ok()).map(([id])=>id);
 
