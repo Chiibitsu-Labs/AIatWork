@@ -161,9 +161,8 @@
       <div class="kicker">Quick question</div>
       <h1>Which ChatGPT plan are you on?</h1>
       <div class="choices" data-q="plan">
-        <button class="choice" data-v="work"><span class="key">A</span><span>Business, Enterprise or Edu<small>Reads and saves notes</small></span></button>
-        <button class="choice" data-v="personal"><span class="key">B</span><span>Plus or Pro<small>Reads notes only — can’t save</small></span></button>
-        <button class="choice" data-v="free"><span class="key">C</span><span>Free<small>Not supported by ChatGPT</small></span></button>
+        <button class="choice" data-v="paid"><span class="key">A</span><span>Plus, Pro, Business, Enterprise or Edu</span></button>
+        <button class="choice" data-v="free"><span class="key">B</span><span>Free<small>Can’t add custom MCP servers</small></span></button>
       </div>
     </section>
 
@@ -365,9 +364,9 @@
         <li>Type your <strong>passphrase</strong> in the window that opens.</li>
       </ol>
       <div class="copybox"><span class="val" data-url>https://my-second-brain.vercel.app/api/mcp</span><button class="copybtn" data-copyurl>Copy</button></div>
-      <div class="note warn" data-plan-note="personal" style="margin-top:1rem"><span>⚖️</span><p>On Plus or Pro, ChatGPT can <strong>read</strong> your notes but not save them. Use Claude for saving.</p></div>
       <div class="note stop" data-plan-note="free" style="margin-top:1rem"><span>⛔</span><p>ChatGPT Free can’t add custom MCP servers. You’ll need Plus or higher — or use Claude.</p></div>
       <div class="row" style="margin-top:1rem"><a class="btn big" href="https://chatgpt.com/plugins" target="_blank" rel="noopener">Open ChatGPT Plugins ↗</a><button class="btn ghost" data-next>Connected →</button></div>
+      <details><summary>ChatGPT reads my notes but won’t save</summary><p>Some ChatGPT plans limit what custom servers can do. Saving through Claude always works — or ask your workspace admin.</p></details>
       <details><summary>I don’t see “Add custom MCP server”</summary><p>Look in ChatGPT’s settings for <strong>Developer mode</strong> and switch it on, then try again. On a Business or Enterprise workspace, an admin may need to allow custom MCP servers first — if you own the workspace, that’s you.</p></details>
     </section>
 
@@ -376,7 +375,7 @@
       <div class="kicker">Test it</div>
       <h1>Open a new chat and ask:</h1>
       <div class="copybox"><span class="val" id="testQ">List the files in my vault root.</span><button class="copybtn" data-copy="testQ">Copy</button></div>
-      <p class="lede" style="margin-top:1rem">If it names folders like <code>daily</code> and <code>notes</code>, you’re in.</p>
+      <p class="lede" style="margin-top:1rem">If it lists your vault’s folders, you’re in.</p>
       <div class="row"><button class="btn big" data-next>It worked 🎉</button><button class="btn ghost" data-panel="p-help">It didn’t →</button></div>
     </section>
 
@@ -385,9 +384,9 @@
       <div class="kicker">Last step</div>
       <h1>Tell your AI to always use your vault.</h1>
       <p class="lede">Copy this. Paste it into your AI’s settings:</p>
-      <ul class="steps" style="counter-reset:none">
-        <li data-for="claude" style="padding-left:0">Claude: <strong>Settings → Profile → personal preferences</strong></li>
-        <li data-for="chatgpt" style="padding-left:0">ChatGPT: <strong>Settings → Personalization → Custom instructions</strong></li>
+      <ul style="padding-left:1.2rem;margin:0 0 1rem;color:var(--ink-soft);font-size:1.05rem">
+        <li data-for="claude">Claude: <strong>Settings → Profile → personal preferences</strong></li>
+        <li data-for="chatgpt">ChatGPT: <strong>Settings → Personalization → Custom instructions</strong></li>
       </ul>
       <div class="bigtext" id="instr">My second brain is a vault connected to you as a connector. Use it in every chat.
 
@@ -562,7 +561,7 @@ claude</div>
     <p><strong>Training:</strong> Claude Team/Enterprise and ChatGPT Business/Enterprise/Edu don’t train on your data by default. Personal plans (Claude Free/Pro/Max, ChatGPT Free/Plus/Pro) do unless you turn it off — Claude: Settings → Privacy; ChatGPT: Settings → Data controls.</p>
   </div></div>
 
-  <div class="toast" id="toast">Copied</div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
   <div class="sr" id="live" aria-live="polite"></div>
 
   <script>
