@@ -215,6 +215,7 @@
         <li>Permissions → <strong>Contents</strong> → <strong>Read and write</strong>.</li>
         <li><strong>Generate</strong>, then copy it. It starts with <code>github_pat_</code>.</li>
       </ol>
+      <div class="note warn"><span>📝</span><p><strong>Paste it into a note right now.</strong> GitHub shows it only once, and you’ll need it on the Deploy screen.</p></div>
       <div class="row"><a class="btn big" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Open token page ↗</a><button class="btn ghost" data-next>I copied it →</button></div>
     </section>
 
@@ -252,6 +253,7 @@
         <li>Permissions → <strong>Contents</strong> → <strong>Read and write</strong>.</li>
         <li><strong>Generate</strong>, then copy it (<code>github_pat_…</code>).</li>
       </ol>
+      <div class="note warn"><span>📝</span><p><strong>Paste it into a note right now.</strong> GitHub shows it only once, and you’ll need it when you deploy.</p></div>
       <div class="row"><a class="btn big" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Open token page ↗</a><button class="btn ghost" data-next>I copied it →</button></div>
     </section>
 
@@ -265,7 +267,7 @@
       <div class="copybox"><span class="lbl">OAUTH_SIGNING_SECRET</span><span class="val ph" data-secret="sign">not made yet</span><button class="copybtn" data-copysecret="sign">Copy</button></div>
       <div class="copybox"><span class="lbl">VAULT_OWNER_PASSPHRASE</span><span class="val ph" data-secret="pass">not made yet</span><button class="copybtn" data-copysecret="pass">Copy</button></div>
       <div class="note warn" style="margin-top:1rem"><span>🔑</span><p><strong>Save the passphrase in your password manager now.</strong> You’ll type it to connect each AI. Keep this tab open until you’ve deployed — the keys disappear if you close it.</p></div>
-      <div class="row"><button class="btn ghost" data-next id="secretsNext">Saved it →</button></div>
+      <div class="row"><button class="btn ghost" data-next id="secretsNext" disabled>Saved it →</button></div>
     </section>
 
     <!-- FRESH: DEPLOY -->
@@ -274,7 +276,7 @@
       <h1>Click Deploy, then fill in the boxes.</h1>
       <p class="lede">The button makes your private vault and puts your connector online. When it asks for keys, copy each one from here.</p>
       <div class="row" style="margin-bottom:1rem"><a class="btn big" id="deployBtn" href="https://vercel.com/new/clone?repository-url=https://github.com/Chiibitsu-Labs/2nd-brain-kit&root-directory=vault-mcp&project-name=my-second-brain&repository-name=my-second-brain&env=VAULT_GITHUB_TOKEN,VAULT_MCP_TOKEN,OAUTH_SIGNING_SECRET,VAULT_OWNER_PASSPHRASE,VAULT_OWNER,VAULT_REPO" target="_blank" rel="noopener">🚀 Deploy my Second Brain ↗</a></div>
-      <div class="note stop keys-missing"><span>⛔</span><p>Your secret keys were cleared (the tab was closed or reloaded). <button class="copybtn" data-goto="secrets">Make new keys</button> — and replace any you already pasted into Vercel.</p></div>
+      <div class="note stop keys-missing"><span>⛔</span><p>No secret keys yet — or they were cleared when the tab closed. <button class="copybtn" data-goto="secrets">Make new keys</button> — and replace any you already pasted into Vercel.</p></div>
       <div class="keys"></div>
       <details><summary>The button isn’t working — build it by hand</summary><ol>
         <li><a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a> → name it <code>my-second-brain</code> → <strong>Private</strong> → Create.</li>
@@ -295,7 +297,7 @@
         <li>Set <strong>Root Directory</strong> to <code>vault-mcp</code>.</li>
         <li>Under Environment Variables, add each key below. Then <strong>Deploy</strong>.</li>
       </ol>
-      <div class="note stop keys-missing"><span>⛔</span><p>Your secret keys were cleared (the tab was closed or reloaded). <button class="copybtn" data-goto="secrets">Make new keys</button> — and replace any you already pasted into Vercel.</p></div>
+      <div class="note stop keys-missing"><span>⛔</span><p>No secret keys yet — or they were cleared when the tab closed. <button class="copybtn" data-goto="secrets">Make new keys</button> — and replace any you already pasted into Vercel.</p></div>
       <div class="keys"></div>
       <div class="note"><span>🌿</span><p>Is your branch called <code>master</code>, not <code>main</code>? Also add <code>VAULT_BRANCH</code> = <code>master</code>.</p></div>
       <div class="row"><a class="btn big" href="https://vercel.com/new" target="_blank" rel="noopener">Open Vercel ↗</a><button class="btn ghost" data-next>It’s live →</button></div>
@@ -586,10 +588,17 @@ claude</div>
     const ORDER=FLOW.map(([id])=>id);
     const flow=()=>FLOW.filter(([,ok])=>!ok||ok()).map(([id])=>id);
 
-    let cur='welcome';
+    let cur='welcome', lastGo=0;
+    // A screen an answer has since removed (e.g. q-free) resolves to the
+    // nearest earlier screen still in the flow, not back to the start.
+    function resolve(id){
+      const f=flow(); if(f.includes(id)) return id;
+      const at=ORDER.indexOf(id);
+      return at<0?f[0]:([...f].reverse().find(x=>ORDER.indexOf(x)<at)||f[0]);
+    }
     function go(id,push=true){
-      const f=flow(); if(!f.includes(id)) id=f[0];
-      cur=id;
+      id=resolve(id); const f=flow();
+      cur=id; lastGo=Date.now();
       $$('.screen').forEach(s=>s.classList.toggle('on',s.dataset.id===id));
       const i=f.indexOf(id);
       $('#bar').style.width=(i/(f.length-1)*100)+'%';
@@ -617,11 +626,14 @@ claude</div>
     window.addEventListener('popstate',e=>{
       const st=e.state||{};
       if(st.panel){openPanel(st.panel,false);return;}
+      const target=st.id||location.hash.slice(1)||'welcome';
+      if($('.panel.on')&&target===cur){closePanels();return;}
       closePanels();
-      go(st.id||location.hash.slice(1)||'welcome',false);
+      go(target,false);
     });
+    const settling=()=>Date.now()-lastGo<400;
     document.addEventListener('click',e=>{
-      if(e.target.closest('[data-next]'))next();
+      if(e.target.closest('[data-next]')&&!settling())next();
       const g=e.target.closest('[data-goto]'); if(g)go(g.dataset.goto);
     });
 
@@ -631,6 +643,7 @@ claude</div>
       box.querySelectorAll('.choice').forEach(b=>{
         if(A[q]===b.dataset.v) b.classList.add('picked');
         b.addEventListener('click',()=>{
+          if(settling()) return;
           const from=cur;
           A[q]=b.dataset.v;save();
           $$(`.choices[data-q="${q}"] .choice`).forEach(x=>x.classList.toggle('picked',x.dataset.v===A[q]));
@@ -661,6 +674,7 @@ claude</div>
     function paintSecrets(){
       $$('[data-secret]').forEach(el=>{const v=S[el.dataset.secret];el.textContent=v||'not made yet';el.classList.toggle('ph',!v);});
       $$('.keys-missing').forEach(n=>n.style.display=S.mcp?'none':'flex');
+      $('#secretsNext').disabled=!S.mcp;
     }
     $('#genAll').addEventListener('click',()=>{if(!S.mcp||confirm('Make new keys? Any you already copied will stop matching.'))genSecrets();});
 
@@ -684,6 +698,7 @@ claude</div>
         const u=new URL(v);
         if(!u.hostname.includes('.')) return {};
         if(/(^|\.)vercel\.com$/i.test(u.hostname)) return {err:'That’s the Vercel dashboard. Copy the address under Domains instead — it ends in .vercel.app.'};
+        if(/(^|\.)github\.com$/i.test(u.hostname)) return {err:'That’s your GitHub repo. You need the Vercel address — it ends in .vercel.app.'};
         return {url:'https://'+u.host+'/api/mcp'};
       }catch(e){return {};}
     }
@@ -696,7 +711,7 @@ claude</div>
     // --- per-screen touches ---
     function prepare(id){
       if(id==='deploy'||id==='ex-deploy'||id==='secrets') paintSecrets();
-      if(id==='deploy'||id==='ex-deploy') $$('[data-repo]').forEach(v=>v.textContent=fresh()?'my-second-brain':'your vault repo’s name');
+      if(id==='deploy'||id==='ex-deploy') $$('[data-repo]').forEach(v=>v.textContent=fresh()?'my-second-brain (or the name you gave it)':'your vault repo’s name');
       if(id==='claude'||id==='chatgpt') $$('[data-url]').forEach(el=>{const u=mcpUrl();el.textContent=u||'Go back and paste your address first';el.classList.toggle('ph',!u);});
       if(id==='chatgpt') $$('[data-plan-note]').forEach(n=>n.style.display=A.plan===n.dataset.planNote?'flex':'none');
       if(id==='memory') $$('[data-for]').forEach(li=>li.style.display=(li.dataset.for==='claude'?usesClaude():usesGPT())?'':'none');
@@ -725,6 +740,7 @@ claude</div>
     function openPanel(id,push=true){
       $$('.panel').forEach(p=>p.classList.toggle('on',p.id===id));
       const p=$('#'+id); document.body.style.overflow='hidden'; p.scrollTo(0,0);
+      ['header.top','main','nav.bottom'].forEach(sel=>$(sel).inert=true);
       p.setAttribute('aria-label',p.querySelector('h1').textContent);
       if(push) history.pushState({id:cur,panel:id},'', '#'+cur);
       p.querySelector('[data-close]').focus({preventScroll:true});
@@ -732,6 +748,7 @@ claude</div>
     function closePanels(){
       if(!$('.panel.on')) return;
       $$('.panel').forEach(p=>p.classList.remove('on'));document.body.style.overflow='';
+      ['header.top','main','nav.bottom'].forEach(sel=>$(sel).inert=false);
       if(opener&&document.contains(opener)) opener.focus({preventScroll:true});
     }
     const closeTop=()=>{(history.state&&history.state.panel)?history.back():closePanels();};
